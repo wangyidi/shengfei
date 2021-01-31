@@ -1,0 +1,71 @@
+server:
+  port: 8081
+  tomcat:
+    #tomcat线程池大小设置
+    max-threads: 1000
+    #tomcat初始化线程数量
+    min-spare-threads: 30
+    #tomcat编码
+    uri-encoding: UTF-8
+pagehelper:
+  helper-dialect: mysql
+spring:
+  application:
+    name: shop-admin
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  jackson:
+    date-format: yyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/shop-admin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    #fiters一定要放在datasource下，如果放到druid下，SQL监控不生效
+    filters: stat, wall, log4j2
+    druid:
+      # 初始化大小，最小，最大
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      # 合并多个DruidDataSource的监控数据
+      useGlobalDataSourceStat: true
+      aop-patterns: com.complain.*.service.*, com.complain.*.dao.*
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: /druid/*,*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico
+        session-stat-enable: true
+        session-stat-max-count: 10
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: true
+        #login-username: admin
+        #login-password: admin
+
+
+redis:
+  host: 127.0.0.1
+  database: 0
+  password: 2021!!
+  port: 6379
+  timeout: 30000
