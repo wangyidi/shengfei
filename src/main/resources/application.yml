@@ -66,7 +66,8 @@ spring:
         #login-username: admin
         #login-password: admin
 
-
+file:
+  prefix: /upload/
 redis:
   host: 127.0.0.1
   database: 0

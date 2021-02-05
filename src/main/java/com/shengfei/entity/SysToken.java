@@ -13,8 +13,6 @@ import java.util.Date;
 
 @TableName("sys_token")
 @Data
-@Getter
-@Setter
 public class SysToken implements Serializable {
 
     /**

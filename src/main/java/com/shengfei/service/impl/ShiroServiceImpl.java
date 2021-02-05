@@ -125,7 +125,6 @@ public class ShiroServiceImpl implements ShiroService
     @Override
     public void logout(String token) {
         //生成一个token
-        String token_ = TokenGenerator.generateValue();
         //当前时间
         LocalDateTime now = LocalDateTime.now();
         //过期时间
@@ -164,7 +163,7 @@ public class ShiroServiceImpl implements ShiroService
         }
         PageHelper.startPage(page.getPageNum(),page.getPageSize());
         List<User> userList = userMapper.selectList(queryWrapper);
-        return new PageInfo<User>(userList);
+        return new PageInfo<>(userList);
     }
 
 
