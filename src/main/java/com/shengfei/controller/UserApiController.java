@@ -9,6 +9,7 @@ import com.shengfei.entity.SysToken;
 import com.shengfei.entity.User;
 import com.shengfei.entity.UserPermission;
 import com.shengfei.mapper.TokenMapper;
+import com.shengfei.mapper.UserMapper;
 import com.shengfei.service.ShiroService;
 import com.shengfei.service.UserPermissionService;
 import com.shengfei.shiro.vo.PageBean;
@@ -42,6 +43,9 @@ public class UserApiController {
 
     @Resource
     private UserPermissionService userPermissionService;
+
+    @Resource
+    private UserMapper userMapper;
 
     @ApiOperation("用户列表")
     @GetMapping("/list")
@@ -86,10 +90,17 @@ public class UserApiController {
             }
             Integer userId = sysToken.getUserId();
 
+            User user = userMapper.selectById(userId);
+
             QueryWrapper<UserPermission> query = new QueryWrapper();
             query.eq("user_id",userId);
             List<UserPermission>list =  userPermissionService.list(query);
-            return ResultVO.success(list);
+
+            Map<String,Object> map = new HashMap<>();
+            map.put("userPermissionList",list);
+            map.put("user",user);
+
+            return ResultVO.success(map);
         }catch (Exception e){
             log.error("查看当前登陆人的权限列表根据token错误：{}",e.getMessage());
             return ResultVO.systemError("查看当前登陆人的权限列表根据token查询错误"+e.getMessage());
