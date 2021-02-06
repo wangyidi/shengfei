@@ -1,8 +1,13 @@
 package com.shengfei.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.shengfei.dto.MemberSearchDTO;
 import com.shengfei.entity.Member;
+import com.shengfei.entity.SysToken;
+import com.shengfei.mapper.TokenMapper;
 import com.shengfei.service.MemberService;
 import com.shengfei.shiro.vo.ResultVO;
+import com.shengfei.utils.TokenUtil;
 import com.shengfei.utils.ValidatorUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +19,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 
@@ -22,6 +29,9 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/api/admin/member")
 public class MemberApiController {
+
+    @Resource
+    private TokenMapper tokenMapper;
 
     @Resource
     private MemberService memberService;
@@ -34,12 +44,25 @@ public class MemberApiController {
      */
     @ApiOperation(value = "添加客户资料")
     @PostMapping("/create")
-    public ResultVO create(@Validated @RequestBody Member member, BindingResult bindingResult) {
+    public ResultVO create(HttpServletRequest httpServletRequest, @Validated @RequestBody Member member, BindingResult bindingResult) {
         try {
+            // 获取用户信息
+            String token = TokenUtil.getRequestToken(httpServletRequest);
+            QueryWrapper<SysToken> queryWrapper = new QueryWrapper();
+            queryWrapper.eq("token",token);
+            SysToken sysToken =  tokenMapper.selectOne(queryWrapper);
+            if (sysToken == null ){
+                return ResultVO.systemError("请登陆");
+            }
+
+            Integer userId = sysToken.getUserId();
+
             if (!ValidatorUtils.validate(MemberApiController.class,bindingResult)) {
                 return ResultVO.systemError(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
             }
-            memberService.save(member);
+
+            member.setSysUserId(userId);
+            memberService.createMember(member);
             log.info("客户添加成功");
             return ResultVO.success("添加完成");
         }catch (Exception e){
@@ -57,13 +80,33 @@ public class MemberApiController {
      */
     @ApiOperation(value = "查询客户详情")
     @GetMapping("/member/{id}")
-    public ResultVO update(@PathVariable Integer id) {
+    public ResultVO getMember(@PathVariable Integer id) {
         try {
-
-            log.info("客户添加成功");
-            return ResultVO.success("添加完成");
+           Member member = memberService.getMember(id);
+            log.info("查询客户详情 成功");
+            return ResultVO.success(member,"添加完成");
         }catch (Exception e){
-            log.error("客户添加失败：{}",e.getMessage());
+            log.error("查询客户详情失败：{}",e.getMessage());
+            return ResultVO.systemError(e.getMessage());
+        }
+
+    }
+
+
+
+    /**
+     *  查询客户列表
+     *
+     *
+     * @return
+     */
+    @ApiOperation(value = "查询客户列表")
+    @PostMapping("/members")
+    public ResultVO getMemberList(@RequestBody MemberSearchDTO memberSearchDTO) {
+        try {
+            return ResultVO.success(memberService.getMemberList(memberSearchDTO),"查询客户列表");
+        }catch (Exception e){
+            log.error("查询客户列表失败：{}",e.getMessage());
             return ResultVO.systemError(e.getMessage());
         }
 
@@ -85,12 +128,13 @@ public class MemberApiController {
             if (!ValidatorUtils.validate(MemberApiController.class,bindingResult)) {
                 return ResultVO.systemError(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
             }
+
+            memberService.updateMember(member);
             log.info("修改客户资料成功");
             return ResultVO.success("修改客户资料成功");
         }catch (Exception e){
             log.error("修改客户资料失败：{}",e.getMessage());
             return ResultVO.systemError(e.getMessage());
         }
-
     }
 }

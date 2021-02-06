@@ -1,14 +1,10 @@
 package com.shengfei.service;
 
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.shengfei.entity.Permission;
 
-import java.util.List;
+public interface  PermissionService extends IService<Permission> {
 
-public interface  PermissionService {
-
-	 List<Permission> getUserPermission(String roleId);
-
-	 List<Permission> list();
 
 }

@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -239,5 +241,11 @@ public class Member implements Serializable {
     @ApiModelProperty(value = "学历")
     @TableField("education")
     private Integer education;
+
+    @TableField(exist = false)
+    private List<MemberImage> imageList;
+
+    @TableField("sys_user_id")
+    private Integer sysUserId;
 
 }

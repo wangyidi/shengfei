@@ -12,28 +12,10 @@ public class Permission {
     @ApiModelProperty(value = "自增id")
     private Integer id;
 
-    @ApiModelProperty(value = "父id")
-    private Integer pid;
-
-    @ApiModelProperty(value = "类别(1:目录,2:菜单,3:按钮)")
-    private Integer category;
-
     @ApiModelProperty(value = "名称")
     private String name;
 
-    @ApiModelProperty(value = "类型:菜单or功能")
-    private String type;
-
-    private Integer sort;
-
-    private String url;
-
+    @ApiModelProperty(value = "菜单编码")
     private String permCode;
-
-    private String icon;
-
-    private String state;
-
-    private String description;
 
 }

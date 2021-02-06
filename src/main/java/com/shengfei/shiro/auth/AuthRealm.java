@@ -1,12 +1,9 @@
 package com.shengfei.shiro.auth;
 
 
-import com.shengfei.entity.Permission;
-import com.shengfei.entity.Role;
 import com.shengfei.entity.SysToken;
 import com.shengfei.entity.User;
 import com.shengfei.service.PermissionService;
-import com.shengfei.service.RoleService;
 import com.shengfei.service.ShiroService;
 import lombok.SneakyThrows;
 import org.apache.commons.beanutils.BeanUtils;
@@ -19,19 +16,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class AuthRealm extends AuthorizingRealm {
 
-    @Autowired
-    private RoleService roleService;
+
     @Autowired
     private PermissionService permissionService;
-     @Autowired
+    @Autowired
     private ApplicationContext applicationContext;
 
     @SneakyThrows
@@ -41,20 +34,20 @@ public class AuthRealm extends AuthorizingRealm {
 
         BeanUtils.copyProperties(principals.getPrimaryPrincipal(),user);
 
-        List<Role> roles = roleService.getUserRoles(user.getId().toString());
-        List<Integer> rolesIds = roles.stream().map(Role::getId).collect(Collectors.toList());
-        List<String>  rolesName = roles.stream().map(Role::getName).collect(Collectors.toList());
-
-        List<String> permissions = new ArrayList<>();
-
-        rolesIds.stream().forEach((e) ->{
-            List<Permission> permission = permissionService.getUserPermission(e.toString());
-            permissions.addAll(permission.stream().map(Permission::getPermCode).collect(Collectors.toList()));
-        });
+//        List<Role> roles = roleService.getUserRoles(user.getId().toString());
+//        List<Integer> rolesIds = roles.stream().map(Role::getId).collect(Collectors.toList());
+//        List<String>  rolesName = roles.stream().map(Role::getName).collect(Collectors.toList());
+//
+//        List<String> permissions = new ArrayList<>();
+//
+//        rolesIds.stream().forEach((e) ->{
+//            List<Permission> permission = permissionService.getUserPermission(e.toString());
+//            permissions.addAll(permission.stream().map(Permission::getPermCode).collect(Collectors.toList()));
+//        });
         // 为当前用户设置角色和权限
         SimpleAuthorizationInfo simpleAuthorInfo = new SimpleAuthorizationInfo();
-        simpleAuthorInfo.addRoles(rolesName);
-        simpleAuthorInfo.addStringPermissions(permissions);
+//        simpleAuthorInfo.addRoles(rolesName);
+//        simpleAuthorInfo.addStringPermissions(permissions);
         return simpleAuthorInfo;
     }
 
