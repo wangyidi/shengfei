@@ -115,7 +115,7 @@ public class UserApiController {
             if (!ValidatorUtils.validate(MemberApiController.class,bindingResult)) {
                 return ResultVO.systemError(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
             }
-            // TODO
+            userPermissionService.addPermission(userMenuAdd);
             return ResultVO.success();
         }catch (Exception e){
             log.error("用户列表查询错误：{}",e.getMessage());
