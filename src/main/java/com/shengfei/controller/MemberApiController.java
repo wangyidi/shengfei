@@ -66,7 +66,7 @@ public class MemberApiController {
             log.info("客户添加成功");
             return ResultVO.success("添加完成");
         }catch (Exception e){
-            log.error("客户添加失败：{}",e.getMessage());
+            log.error("客户添加失败：{}",e.getMessage(),e);
             return ResultVO.systemError(e.getMessage());
         }
 
@@ -86,7 +86,7 @@ public class MemberApiController {
             log.info("查询客户详情 成功");
             return ResultVO.success(member,"添加完成");
         }catch (Exception e){
-            log.error("查询客户详情失败：{}",e.getMessage());
+            log.error("查询客户详情失败：{}",e.getMessage(),e);
             return ResultVO.systemError(e.getMessage());
         }
 
@@ -106,7 +106,7 @@ public class MemberApiController {
         try {
             return ResultVO.success(memberService.getMemberList(memberSearchDTO),"查询客户列表");
         }catch (Exception e){
-            log.error("查询客户列表失败：{}",e.getMessage());
+            log.error("查询客户列表失败：{}",e.getMessage(),e);
             return ResultVO.systemError(e.getMessage());
         }
 
@@ -133,7 +133,7 @@ public class MemberApiController {
             log.info("修改客户资料成功");
             return ResultVO.success("修改客户资料成功");
         }catch (Exception e){
-            log.error("修改客户资料失败：{}",e.getMessage());
+            log.error("修改客户资料失败：{}",e.getMessage(),e);
             return ResultVO.systemError(e.getMessage());
         }
     }

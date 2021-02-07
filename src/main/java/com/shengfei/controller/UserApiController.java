@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageInfo;
 import com.shengfei.dto.UserMenuAdd;
 import com.shengfei.dto.UserSearchDTO;
+import com.shengfei.dto.UserUpdatePasswordDTO;
 import com.shengfei.entity.SysToken;
 import com.shengfei.entity.User;
 import com.shengfei.entity.UserPermission;
@@ -54,7 +55,7 @@ public class UserApiController {
             PageInfo<User> userPage = shiroService.page(pageBean,userSearchDTO);
             return ResultVO.success(userPage,"查询成功");
         }catch (Exception e){
-            log.error("用户列表查询错误：{}",e.getMessage());
+            log.error("用户列表查询错误：{}",e.getMessage(),e);
             return ResultVO.systemError("查询错误"+e.getMessage());
         }
     }
@@ -62,12 +63,12 @@ public class UserApiController {
 
     @ApiOperation("查看用户详细信息")
     @PostMapping("/user")
-    public ResultVO view(Integer userId) {
+    public Object view(Integer userId) {
 
         Map<String,Object> maps = new HashMap<>();
         maps.put("user",shiroService.findByUserId(userId));
 
-        QueryWrapper<UserPermission> query = new QueryWrapper();
+        QueryWrapper<UserPermission> query = new QueryWrapper<>();
         query.eq("user_id",userId);
         List<UserPermission>list =  userPermissionService.list(query);
         maps.put("menuList",list);
@@ -78,11 +79,11 @@ public class UserApiController {
 
     @ApiOperation("查看当前登陆人的权限列表根据token")
     @PostMapping("/current/menus")
-    public ResultVO currentMenus(HttpServletRequest httpServletRequest) {
+    public Object currentMenus(HttpServletRequest httpServletRequest) {
         try {
             // 获取用户信息
             String token = TokenUtil.getRequestToken(httpServletRequest);
-            QueryWrapper<SysToken> queryWrapper = new QueryWrapper();
+            QueryWrapper<SysToken> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("token",token);
             SysToken sysToken =  tokenMapper.selectOne(queryWrapper);
             if (sysToken == null ){
@@ -92,7 +93,7 @@ public class UserApiController {
 
             User user = userMapper.selectById(userId);
 
-            QueryWrapper<UserPermission> query = new QueryWrapper();
+            QueryWrapper<UserPermission> query = new QueryWrapper<>();
             query.eq("user_id",userId);
             List<UserPermission>list =  userPermissionService.list(query);
 
@@ -102,7 +103,7 @@ public class UserApiController {
 
             return ResultVO.success(map);
         }catch (Exception e){
-            log.error("查看当前登陆人的权限列表根据token错误：{}",e.getMessage());
+            log.error("查看当前登陆人的权限列表根据token错误：{}",e.getMessage(),e);
             return ResultVO.systemError("查看当前登陆人的权限列表根据token查询错误"+e.getMessage());
         }
     }
@@ -118,9 +119,38 @@ public class UserApiController {
             userPermissionService.addPermission(userMenuAdd);
             return ResultVO.success();
         }catch (Exception e){
-            log.error("用户列表查询错误：{}",e.getMessage());
+            log.error("用户列表查询错误：{}",e.getMessage(),e);
             return ResultVO.systemError("查询错误"+e.getMessage());
         }
     }
 
+
+
+    @ApiOperation("修改密码")
+    @PostMapping("/user/password")
+    public Object updatePassword(@RequestBody UserUpdatePasswordDTO userUpdatePasswordDTO, BindingResult bindingResult) {
+        try {
+            if (!ValidatorUtils.validate(MemberApiController.class,bindingResult)) {
+                return ResultVO.systemError(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+            }
+            if (!Objects.equals(userUpdatePasswordDTO.getPassword(),userUpdatePasswordDTO.getPasswordConfirm())) {
+                return ResultVO.systemError("密码不相符");
+            }
+            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("id",userUpdatePasswordDTO.getUserId());
+            if (userMapper.selectCount(queryWrapper)!=1) {
+                return ResultVO.systemError("用户不存在");
+            }
+
+            User user = new User();
+            user.setId(userUpdatePasswordDTO.getUserId());
+            user.setPassword(userUpdatePasswordDTO.getPassword());
+            userMapper.updateById(user);
+
+            return ResultVO.success("修改密码成功");
+        }catch (Exception e){
+            log.error("修改密码错误：{}",e.getMessage(),e);
+            return ResultVO.systemError("修改密码错误"+e.getMessage());
+        }
+    }
 }

@@ -33,7 +33,7 @@ public class MenuApiController {
             List<Permission>  menuList = permissionService.list();
             return ResultVO.success(menuList,"菜单列表查询成功");
         }catch (Exception e){
-            log.error("菜单列表查询错误：{}",e.getMessage());
+            log.error("菜单列表查询错误：{}",e.getMessage(),e);
             return ResultVO.systemError("查询错误"+e.getMessage());
         }
     }

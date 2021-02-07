@@ -36,7 +36,7 @@ public class MultipartFileBuilder {
         try {
             out = new FileOutputStream(fileUrl);
         }catch (Exception e){
-            log.error(e.getMessage());
+            log.error(e.getMessage(),e);
         }finally {
             out.write(file.getBytes());
             out.flush();

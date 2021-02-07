@@ -53,7 +53,7 @@ public class ShiroController {
             Map<String,Object> token = shiroService.createToken(user.getId());
             return ResultVO.success(token,"登录成功");
         }catch (Exception e){
-            log.error("登陆异常：{}",e.getMessage());
+            log.error("登陆异常：{}",e.getMessage(),e);
             return ResultVO.systemError("登陆异常 :"+e.getMessage());
 
         }
@@ -100,7 +100,7 @@ public class ShiroController {
             shiroService.createUser(user);
             return ResultVO.success("注册成功");
         } catch (Exception e) {
-            log.error("注册异常 {}",e.getMessage());
+            log.error("注册异常 {}",e.getMessage(),e);
             return ResultVO.systemError("系统异常：" + e.getMessage());
         }
     }
