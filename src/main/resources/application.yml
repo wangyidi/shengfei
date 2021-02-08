@@ -67,7 +67,7 @@ spring:
         #login-password: admin
 
 file:
-  prefix:
+  prefix: upload/
 redis:
   host: 47.105.195.101
   database: 0

@@ -27,7 +27,7 @@
     <!--配置全部日志文件输出-->
     <appender name="TOFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>data/logs/${app.name}/%d{yyyy-MM-dd}/%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>logs/${app.name}/%d{yyyy-MM-dd}/%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- 单个日志文件最多 100MB, 7天的日志周期，最大不能超过2GB -->
             <maxFileSize>100MB</maxFileSize>
             <maxHistory>7</maxHistory>
@@ -44,7 +44,7 @@
     <!--配置ERROR日志文件输出-->
     <appender name="ERRORTOFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>data/logs/${app.name}/%d{yyyy-MM-dd}/%d{yyyy-MM-dd}-error.%i.log</fileNamePattern>
+            <fileNamePattern>logs/${app.name}/%d{yyyy-MM-dd}/%d{yyyy-MM-dd}-error.%i.log</fileNamePattern>
             <!-- 单个日志文件最多 100MB, 7天的日志周期，最大不能超过2GB -->
             <maxFileSize>100MB</maxFileSize>
             <maxHistory>7</maxHistory>

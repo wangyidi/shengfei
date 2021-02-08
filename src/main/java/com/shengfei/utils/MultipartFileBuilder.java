@@ -23,7 +23,7 @@ public class MultipartFileBuilder {
 
     public String uploadFile(MultipartFile file,String prefix) throws Exception{
         String filePath =  getFilePath();
-        if (!StringUtils.isNotBlank(prefix)) {
+        if (StringUtils.isNotBlank(prefix)) {
             filePath = prefix+filePath;
         }
         String fileUrl = filePath + getFileName() + getSuffix(file);
