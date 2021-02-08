@@ -17,9 +17,6 @@ import java.util.List;
 @Service
 public class UserPermissionServiceImpl extends ServiceImpl<UserPermissionMapper, UserPermission> implements UserPermissionService {
 
-    @Resource
-    private UserPermissionService userPermissionService;
-
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -28,7 +25,7 @@ public class UserPermissionServiceImpl extends ServiceImpl<UserPermissionMapper,
         QueryWrapper<UserPermission> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id",userMenuAdd.getUserId());
         queryWrapper.in("permission_id",userMenuAdd.getPermissionIds());
-        userPermissionService.remove(queryWrapper);
+        remove(queryWrapper);
 
         List<UserPermission>list = new ArrayList<>();
         userMenuAdd.getPermissionIds().forEach(e->{
@@ -37,7 +34,7 @@ public class UserPermissionServiceImpl extends ServiceImpl<UserPermissionMapper,
             userPermission.setPermissionId(e);
             list.add(userPermission);
         });
-        userPermissionService.saveBatch(list);
+        saveBatch(list);
     }
 
 
