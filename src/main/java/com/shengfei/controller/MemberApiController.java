@@ -13,13 +13,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ValidationUtils;
-import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
@@ -123,10 +120,10 @@ public class MemberApiController {
     public ResultVO update(@Validated @RequestBody Member member, BindingResult bindingResult) {
         try {
             if (ValidatorUtils.empty(member.getId())){
-                return ResultVO.systemError("用户id为空");
+                return ResultVO.parameterError("用户id为空");
             }
             if (!ValidatorUtils.validate(MemberApiController.class,bindingResult)) {
-                return ResultVO.systemError(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+                return ResultVO.parameterError(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
             }
 
             memberService.updateMember(member);

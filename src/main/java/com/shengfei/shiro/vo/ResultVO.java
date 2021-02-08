@@ -58,13 +58,17 @@ public class ResultVO<T> implements Serializable {
     }
 
     public static <T> ResultVO systemError(String message) {
-        return new ResultVO(BaseResponseCode.OPERATION_ERRO.getCode(), message);
+        return new ResultVO(BaseResponseCode.OPERATION_ERROR.getCode(), message);
+    }
+    public static <T> ResultVO parameterError(String message) {
+        return new ResultVO(BaseResponseCode.PARAMETER_ERROR.getCode(), message);
     }
 
 
     enum BaseResponseCode implements ResponseCodeInterface {
         SUCCESS(200, "操作成功"),
-        OPERATION_ERRO(404, "操作失败");
+        OPERATION_ERROR(404, "操作失败"),
+        PARAMETER_ERROR(400, "参数错误");
 
         /**
          * 错误码

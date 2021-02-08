@@ -40,15 +40,15 @@ public class ShiroController {
     public ResultVO login(@RequestBody @Validated LoginDTO loginDTO, BindingResult bindingResult) {
         try {
             if (!ValidatorUtils.validate(ShiroController.class, bindingResult)) {
-                return ResultVO.systemError(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+                return ResultVO.parameterError(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
             }
             log.info("开始登陆 {}",loginDTO.getMobile());
             User user = shiroService.findByUserMobile(loginDTO.getMobile());
             if(user == null) {
-                return ResultVO.systemError("用户不存在！！！");
+                return ResultVO.parameterError("用户不存在！！！");
             }
             if (!user.getPassword().equals(loginDTO.getPassword())) {
-                return ResultVO.systemError("账号或密码有误");
+                return ResultVO.parameterError("账号或密码有误");
             }
             Map<String,Object> token = shiroService.createToken(user.getId());
             return ResultVO.success(token,"登录成功");
@@ -69,19 +69,19 @@ public class ShiroController {
         return ResultVO.success("您已安全退出系统");
     }
 
-    /**
-     * 验证是否登陆过-实现 不能异步登陆逻辑
-     */
-    @ApiOperation("验证是否登陆过-实现 不能异步登陆逻辑")
-    @PostMapping("/sys/checkLogin")
-    public ResultVO checkLogin() {
-        Subject subject = SecurityUtils.getSubject();
-        // 判断是否认证成功
-        if (!subject.isAuthenticated()) {
-            return ResultVO.systemError("登录凭证已失效，请重新登录");
-        }
-        return ResultVO.success("校验通过");
-    }
+//    /**
+//     * 验证是否登陆过-实现 不能异步登陆逻辑
+//     */
+//    @ApiOperation("验证是否登陆过-实现 不能异步登陆逻辑")
+//    @PostMapping("/sys/checkLogin")
+//    public ResultVO checkLogin() {
+//        Subject subject = SecurityUtils.getSubject();
+//        // 判断是否认证成功
+//        if (!subject.isAuthenticated()) {
+//            return ResultVO.systemError("登录凭证已失效，请重新登录");
+//        }
+//        return ResultVO.success("校验通过");
+//    }
 
     /**
      * 注册
@@ -93,7 +93,7 @@ public class ShiroController {
     public ResultVO register(@RequestBody @Validated UserDTO userDTO, BindingResult bindingResult) {
         try {
             if (!ValidatorUtils.validate(ShiroController.class, bindingResult)) {
-                return ResultVO.systemError(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+                return ResultVO.parameterError(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
             }
             User user = new User();
             BeanUtil.copyProperties(userDTO,user);

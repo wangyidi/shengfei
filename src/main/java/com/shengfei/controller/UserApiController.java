@@ -114,7 +114,7 @@ public class UserApiController {
     public Object addMenuForUser(@RequestBody UserMenuAdd userMenuAdd, BindingResult bindingResult) {
         try {
             if (!ValidatorUtils.validate(MemberApiController.class,bindingResult)) {
-                return ResultVO.systemError(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+                return ResultVO.parameterError(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
             }
             userPermissionService.addPermission(userMenuAdd);
             return ResultVO.success();
