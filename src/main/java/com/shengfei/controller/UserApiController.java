@@ -20,6 +20,8 @@ import com.shengfei.utils.ValidatorUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -79,19 +81,12 @@ public class UserApiController {
 
     @ApiOperation("查看当前登陆人的权限列表根据token")
     @PostMapping("/current/menus")
-    public Object currentMenus(HttpServletRequest httpServletRequest) {
+    public Object currentMenus() {
         try {
             // 获取用户信息
-            String token = TokenUtil.getRequestToken(httpServletRequest);
-            QueryWrapper<SysToken> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("token",token);
-            SysToken sysToken =  tokenMapper.selectOne(queryWrapper);
-            if (sysToken == null ){
-                return ResultVO.systemError("请登陆");
-            }
-            Integer userId = sysToken.getUserId();
-
-            User user = userMapper.selectById(userId);
+            Subject subject = SecurityUtils.getSubject();
+            User user = (User) subject.getPrincipal();
+            Integer userId = user.getId();
 
             QueryWrapper<UserPermission> query = new QueryWrapper<>();
             query.eq("user_id",userId);

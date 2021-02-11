@@ -122,7 +122,6 @@ public class Member implements Serializable {
     private String zipCode;
 
     @ApiModelProperty(value = "家庭收入")
-    @NotNull
     @TableField("family_salary")
     private Integer familySalary;
 
@@ -222,7 +221,6 @@ public class Member implements Serializable {
     @TableField("emergency_contact")
     private String emergencyContact;
 
-    @NotBlank
     @ApiModelProperty(value = "紧急电话")
     @TableField("emergency_contact_tel")
     private String emergencyContactTel;
@@ -248,4 +246,6 @@ public class Member implements Serializable {
     @TableField("sys_user_id")
     private Integer sysUserId;
 
+    @TableField("status")
+    private Integer status;
 }

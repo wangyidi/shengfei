@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
   tomcat:
     #tomcat线程池大小设置
     max-threads: 1000

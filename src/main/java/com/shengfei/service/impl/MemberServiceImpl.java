@@ -5,7 +5,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.shengfei.constant.MemberStatusEnum;
+import com.shengfei.dto.MemberFinalSearchDTO;
+import com.shengfei.dto.MemberPreliminarySearchDTO;
 import com.shengfei.dto.MemberSearchDTO;
+import com.shengfei.dto.MemberWaiteSearchDTO;
 import com.shengfei.entity.Member;
 import com.shengfei.entity.MemberImage;
 import com.shengfei.mapper.MemberMapper;
@@ -28,9 +32,16 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     @Resource
     private MemberImageService memberImageService;
 
+    /**
+     * 待审创建
+     * @param member
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean createMember(Member member) {
+    public void createMember(Member member) {
+        // 待审上传
+        member.setStatus(MemberStatusEnum.WAITE_CHECK.getId());
+
         Integer id = memberMapper.createMember(member);
 
         List<MemberImage> imageList = member.getImageList();
@@ -41,7 +52,6 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
             });
         }
         memberImageService.saveBatch(imageList);
-        return true;
     }
 
     /**
@@ -86,20 +96,90 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         return true;
     }
 
+    /**
+     * 获取全部列表
+     * @param memberSearchDTO
+     * @return
+     */
     @Override
     public PageInfo<Member> getMemberList(MemberSearchDTO memberSearchDTO) {
 
         PageHelper.startPage(memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
-        List<Member> memberList = list();
+
+        QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("create_date");
+        return getMemberPageInfo(queryWrapper);
+    }
+
+    /**
+     * 获取初审列表
+     * @param memberSearchDTO
+     * @param userId
+     * @return
+     */
+    @Override
+    public PageInfo<Member> getPreliminaryMemberList(MemberPreliminarySearchDTO memberSearchDTO,Integer userId) {
+
+        PageHelper.startPage(memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
+
+        QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("create_date");
+        queryWrapper.eq("sys_user_id",userId);
+
+        return getMemberPageInfo(queryWrapper);
+    }
+
+    /**
+     * 获取初审列表
+     * @param memberSearchDTO
+     * @return
+     */
+    @Override
+    public PageInfo<Member> getWaiteCheckMemberList(MemberWaiteSearchDTO memberSearchDTO) {
+
+        PageHelper.startPage(memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
+
+        QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("create_date");
+        queryWrapper.eq("status",MemberStatusEnum.WAITE_CHECK);
+
+        return getMemberPageInfo(queryWrapper);
+    }
+
+
+
+    /**
+     * 获取终审列表
+     * @param memberSearchDTO
+     * @return
+     */
+    @Override
+    public PageInfo<Member> getFinalCheckMemberList(MemberFinalSearchDTO memberSearchDTO) {
+
+        PageHelper.startPage(memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
+
+        QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("create_date");
+        queryWrapper.in("status",MemberStatusEnum.FINAL_CHECK,MemberStatusEnum.REJECT,MemberStatusEnum.SUCCESS);
+
+        return getMemberPageInfo(queryWrapper);
+    }
+
+
+
+
+
+    private PageInfo<Member> getMemberPageInfo(QueryWrapper<Member> queryWrapper) {
+        List<Member> memberList = list(queryWrapper);
 
         memberList.forEach(e->{
-           Integer id = e.getId();
-           QueryWrapper queryWrapper = new QueryWrapper();
-           queryWrapper.eq("member_id",id);
-           List<MemberImage> list = memberImageService.list(queryWrapper);
+            Integer id = e.getId();
+            QueryWrapper<MemberImage> query = new QueryWrapper<>();
+            query.eq("member_id",id);
+            List<MemberImage> list = memberImageService.list(query);
             e.setImageList(list);
         });
 
-        return new PageInfo<Member>(memberList);
+        return new PageInfo<>(memberList);
     }
 }

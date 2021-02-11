@@ -21,7 +21,7 @@ public class UserSearchDTO implements Serializable {
     @ApiModelProperty(value = "电话号")
     private String mobile;
 
-    @ApiModelProperty(value = "岗位",required = true)
+    @ApiModelProperty(value = "岗位")
     private String station;
 
 }
