@@ -1,4 +1,4 @@
 /.idea/*
-/src/test/java/com/test/Test.java
-/data/logs/app.name_IS_UNDEFINED/2021-02-06/2021-02-06.0.log
+/src/test/*
+/logs/*
 /target/*
