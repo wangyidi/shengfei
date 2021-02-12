@@ -21,7 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> implements MemberService {
@@ -146,6 +148,13 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         return getMemberPageInfo(queryWrapper);
     }
 
+    @Override
+    public void updateStatus(Integer memberId, Integer status) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("memberId",memberId);
+        map.put("status",MemberStatusEnum.SUCCESS.getId());
+        memberMapper.updateStatus(map);
+    }
 
 
     /**

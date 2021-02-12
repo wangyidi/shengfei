@@ -4,6 +4,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.shengfei.entity.Member;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
+
+import java.util.Map;
 
 public interface MemberMapper extends BaseMapper<Member> {
 
@@ -23,4 +27,8 @@ public interface MemberMapper extends BaseMapper<Member> {
             ",#{emergencyContactPhone}, #{emergencyContactRelation}, #{education})" })
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int createMember(Member member);
+
+
+    @Update(value = {"update member set status=#{status} where id=#{memberId}"})
+    int updateStatus(Map map);
 }

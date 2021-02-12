@@ -59,4 +59,11 @@ public interface MemberService extends IService<Member> {
      * @return
      */
     PageInfo<Member> getWaiteCheckMemberList(MemberWaiteSearchDTO memberSearchDTO);
+
+    /**
+     * 更改状态
+     * @param memberId
+     * @param status
+     */
+    void updateStatus(Integer memberId,Integer status);
 }

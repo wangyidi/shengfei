@@ -1,5 +1,6 @@
 package com.shengfei.controller;
 
+import com.shengfei.constant.MemberStatusEnum;
 import com.shengfei.dto.MemberFinalSearchDTO;
 import com.shengfei.dto.MemberPreliminarySearchDTO;
 import com.shengfei.dto.MemberSearchDTO;
@@ -152,6 +153,92 @@ public class MemberApiController {
             return ResultVO.systemError(e.getMessage());
         }
     }
+
+    /**
+     *  初审通过
+     * @param memberId
+     * @return
+     */
+    @ApiOperation(value = " 初审通过")
+    @GetMapping("/check/{memberId}")
+    public ResultVO checkPass(@PathVariable Integer memberId) {
+        try {
+            // check 改状态是否能被修改
+            Member member = memberService.getById(memberId);
+            if(member ==null || !member.getStatus().equals(MemberStatusEnum.WAITE_CHECK.getId())){
+                return ResultVO.parameterError("该用户不能被初审通过");
+            }
+            memberService.updateStatus(memberId, MemberStatusEnum.FINAL_CHECK.getId());
+            return ResultVO.success();
+        }catch (Exception e){
+            log.error("查询客户终审列表失败：{}",e.getMessage(),e);
+            return ResultVO.systemError(e.getMessage());
+        }
+    }
+
+
+    /**
+     *  --终审通过
+     * @param memberId
+     * @return
+     */
+    @ApiOperation(value = " 终审通过")
+    @GetMapping("/final/{memberId}")
+    public ResultVO update(@PathVariable Integer memberId) {
+        try {
+            // check 改状态是否能被修改
+            Member member = memberService.getById(memberId);
+            if(member ==null || !member.getStatus().equals(MemberStatusEnum.FINAL_CHECK.getId())){
+                return ResultVO.parameterError("该用户不能被终身完成");
+            }
+            memberService.updateStatus(memberId, MemberStatusEnum.SUCCESS.getId());
+            return ResultVO.success();
+        }catch (Exception e){
+            log.error("查询客户终审列表失败：{}",e.getMessage(),e);
+            return ResultVO.systemError(e.getMessage());
+        }
+    }
+
+    /**
+     *  退回到待审
+     * @param memberId
+     * @return
+     */
+    @ApiOperation(value = "退回到待审")
+    @GetMapping("/return/{memberId}")
+    public ResultVO returnCheck(@PathVariable Integer memberId) {
+        try {
+            memberService.updateStatus(memberId, MemberStatusEnum.WAITE_CHECK.getId());
+            return ResultVO.success();
+        }catch (Exception e){
+            log.error("退回到待审失败：{}",e.getMessage(),e);
+            return ResultVO.systemError(e.getMessage());
+        }
+    }
+
+    /**
+     *  终审拒绝
+     * @param memberId
+     * @return
+     */
+    @ApiOperation(value = "终审拒绝")
+    @GetMapping("/reject/{memberId}")
+    public ResultVO reject(@PathVariable Integer memberId) {
+        try {
+            Member member = memberService.getById(memberId);
+            if(member ==null || !member.getStatus().equals(MemberStatusEnum.FINAL_CHECK.getId())){
+                return ResultVO.parameterError("该用户不能终审拒绝");
+            }
+            memberService.updateStatus(memberId, MemberStatusEnum.REJECT.getId());
+            return ResultVO.success();
+        }catch (Exception e){
+            log.error("终审拒绝失败：{}",e.getMessage(),e);
+            return ResultVO.systemError(e.getMessage());
+        }
+    }
+
+
+
 
     /**
      * 修改客户资料
