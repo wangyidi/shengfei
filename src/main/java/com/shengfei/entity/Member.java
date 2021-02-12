@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -41,7 +42,7 @@ public class Member implements Serializable {
     private String name;
 
     @ApiModelProperty(value = "性别")
-    @NotNull
+    @NotNull(message = "sex is nou null")
     private Integer sex;
 
     @NotNull
@@ -49,28 +50,29 @@ public class Member implements Serializable {
     @Min(value = 1,message = "年龄不能小于1")
     private Integer age;
 
-    @Length(min = 1,max = 20)
+    @Length(min = 1,max = 20,message = "idCard 应在1-20")
     @ApiModelProperty(value = "身份证号")
     @TableField("id_card")
     private String idCard;
 
-    @Length(min = 1,max = 50)
+    @Length(min = 1,max = 50,message ="idCardStation 1-50" )
     @ApiModelProperty(value = "身份证归属地")
     @TableField("id_card_station")
     private String idCardStation;
 
     @ApiModelProperty(value = "生日")
     @NotBlank
-    @Length(min = 1,max = 20)
+    @Length(min = 1,max = 20,message = "birthday 应哎1-20")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String birthday;
 
     @ApiModelProperty(value = "身份证地址")
-    @Length(min = 1,max = 200)
+    @Length(min = 1,max = 200,message = "身份证应在1-200")
     @TableField("address_detail")
     private String addressDetail;
 
     @ApiModelProperty(value = "婚姻状况")
-    @NotNull
+    @NotNull(message = "marriage is no null")
     private Integer marriage;
 
     @NotBlank(message = "电话号不能为空")
@@ -78,25 +80,25 @@ public class Member implements Serializable {
     private String phone;
 
     @ApiModelProperty(value = "健康状况")
-    @NotNull
+    @NotNull(message = "健康状况 不能为空")
     private Integer healthy;
 
-    @NotBlank
+    @NotBlank(message = "currentProvince is not blank")
     @ApiModelProperty(value = "现住址省")
     @TableField("current_province")
     private String currentProvince;
 
-    @NotBlank
+    @NotBlank(message = "currentCity is not null")
     @ApiModelProperty(value = "现住址市")
     @TableField("current_city")
     private String currentCity;
 
-    @NotBlank
+    @NotBlank(message = "currentArea is not null")
     @ApiModelProperty(value = "现住址区")
     @TableField("current_area")
     private String currentArea;
 
-    @NotBlank
+    @NotBlank(message = "currentDetail is not null")
     @ApiModelProperty(value = "现居住详细地址")
     @TableField("current_detail")
     private String currentDetail;
@@ -106,17 +108,17 @@ public class Member implements Serializable {
     @TableField("family_num")
     private Integer familyNum;
 
-    @NotBlank
+    @NotBlank(message = "liveStatus is not null")
     @ApiModelProperty(value = "居住地状况")
     @TableField("live_status")
     private String liveStatus;
 
     @ApiModelProperty(value = "电话区号")
-    @NotBlank
+    @NotBlank(message = "telephoneAreaCode is not null")
     @TableField("telephone_area_code")
     private String telephoneAreaCode;
 
-    @NotBlank
+    @NotBlank(message = "zipCode is not null")
     @ApiModelProperty(value = "邮编")
     @TableField("zip_code")
     private String zipCode;
@@ -126,97 +128,97 @@ public class Member implements Serializable {
     private Integer familySalary;
 
     @ApiModelProperty(value = "公司名称")
-    @NotBlank
+    @NotBlank(message = "companyName is not null")
     @TableField("company_name")
     private String companyName;
 
     @ApiModelProperty(value = "公司-省")
-    @NotBlank
+    @NotBlank(message = "companyProvince is not null")
     @TableField("company_province")
     private String companyProvince;
 
     @ApiModelProperty(value = "公司-市")
-    @NotBlank
+    @NotBlank(message = "companyCity is not null")
     @TableField("company_city")
     private String companyCity;
 
     @ApiModelProperty(value = "公司-区")
-    @NotBlank
+    @NotBlank(message = "companyArea is not null")
     @TableField("company_area")
     private String companyArea;
 
     @ApiModelProperty(value = "公司-详细地址")
-    @NotBlank
+    @NotBlank(message = "companyDetail is not null")
     @TableField("company_detail")
     private String companyDetail;
 
-    @NotNull
+    @NotNull(message = "workAge is not null")
     @ApiModelProperty(value = "工龄")
     @TableField("work_age")
     private Integer workAge;
 
-    @NotNull
+    @NotNull(message = "salary is not null")
     @ApiModelProperty(value = "月收入工资")
     private Integer salary;
 
-    @NotBlank
+    @NotBlank(message = "companyTel is not null")
     @ApiModelProperty(value = "公司电话")
     @TableField("company_tel")
     private String companyTel;
 
-    @NotBlank
+    @NotBlank(message = "majorSourceRevenue is not null")
     @ApiModelProperty(value = "主要收入来源")
     @TableField("major_source_revenue")
     private String majorSourceRevenue;
 
-    @NotNull
+    @NotNull(message = "socialSecurityFlag is not null")
     @TableField("social_security_flag")
     private Integer socialSecurityFlag;
 
-    @NotNull
+    @NotNull(message = "assetsFlag is not null")
     @ApiModelProperty(value = "资产证明")
     @TableField("assets_flag")
     private Integer assetsFlag;
 
-    @NotBlank
+    @NotBlank(message = "companyCode is not null")
     @ApiModelProperty(value = "公司邮编")
     @TableField("company_code")
     private String companyCode;
 
-    @NotBlank
+    @NotBlank(message = "companyNature is not null")
     @ApiModelProperty(value = "公司性质")
     @TableField("company_nature")
     private String companyNature;
 
-    @NotBlank
+    @NotBlank(message = "profession is not null")
     @ApiModelProperty(value = "职业")
     private String profession;
 
-    @NotBlank
+    @NotBlank(message = "position is not null")
     @ApiModelProperty(value = "职务")
     private String position;
 
     @ApiModelProperty(value = "公司-电话区号")
-    @NotBlank
+    @NotBlank(message = "companyTelCode is not null")
     @TableField("company_tel_code")
     private String companyTelCode;
 
-    @NotBlank
+    @NotBlank(message = "onboardTime is not null")
     @ApiModelProperty(value = "入职时间")
     @TableField("onboard_time")
     private String onboardTime;
 
-    @NotBlank
+    @NotBlank(message = "houseSource is not null")
     @ApiModelProperty(value = "房屋来源")
     @TableField("house_source")
     private String houseSource;
 
-    @NotBlank
+    @NotBlank(message = "houseType is not null")
     @ApiModelProperty(value = "住房类型")
     @TableField("house_type")
     private String houseType;
 
-    @NotBlank
+    @NotBlank(message = "emergencyContact is not null")
     @ApiModelProperty(value = "紧急联系人")
     @TableField("emergency_contact")
     private String emergencyContact;
@@ -225,17 +227,17 @@ public class Member implements Serializable {
     @TableField("emergency_contact_tel")
     private String emergencyContactTel;
 
-    @NotBlank
+    @NotBlank(message = "emergencyContactPhone is not null")
     @ApiModelProperty(value = "紧急手机")
     @TableField("emergency_contact_phone")
     private String emergencyContactPhone;
 
-    @NotBlank
+    @NotBlank(message = "emergencyContactRelation is not null")
     @ApiModelProperty(value = "紧急关系")
     @TableField("emergency_contact_relation")
     private String emergencyContactRelation;
 
-    @NotNull
+    @NotNull(message = "education is not null")
     @ApiModelProperty(value = "学历")
     @TableField("education")
     private Integer education;
