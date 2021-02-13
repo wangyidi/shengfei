@@ -1,6 +1,7 @@
 package com.shengfei.service.impl;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
@@ -12,10 +13,13 @@ import com.shengfei.dto.MemberSearchDTO;
 import com.shengfei.dto.MemberWaiteSearchDTO;
 import com.shengfei.entity.Member;
 import com.shengfei.entity.MemberImage;
+import com.shengfei.entity.User;
 import com.shengfei.mapper.MemberMapper;
+import com.shengfei.mapper.UserMapper;
 import com.shengfei.service.MemberImageService;
 import com.shengfei.service.MemberService;
 import com.shengfei.utils.ValidatorUtils;
+import com.shengfei.vo.UserVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +37,9 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
 
     @Resource
     private MemberImageService memberImageService;
+
+    @Resource
+    private UserMapper userMapper;
 
     /**
      * 待审创建
@@ -73,6 +80,12 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         // 获取imageList
         List<MemberImage> memberImageList = memberImageService.list(queryWrapper);
         member.setImageList(memberImageList);
+
+        // 获取登记用户信息
+        User user =  userMapper.selectById(member.getSysUserId());
+        UserVO userVO = new UserVO();
+        BeanUtil.copyProperties(user,userVO);
+        member.setSysUserBean(userVO);
 
         return member;
     }
@@ -189,7 +202,13 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
             query.eq("member_id",id);
             List<MemberImage> list = memberImageService.list(query);
             e.setImageList(list);
+            User user =  userMapper.selectById(e.getSysUserId());
+            UserVO userVO = new UserVO();
+            BeanUtil.copyProperties(user,userVO);
+            e.setSysUserBean(userVO);
         });
+
+
 
         return new PageInfo<>(memberList);
     }

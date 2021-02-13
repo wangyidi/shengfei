@@ -173,7 +173,7 @@ public class MemberApiController {
             // check 改状态是否能被修改
             Member member = memberService.getById(memberId);
             if(member ==null || !member.getStatus().equals(MemberStatusEnum.WAITE_CHECK.getId())){
-                return ResultVO.parameterError("该用户不能被初审通过");
+                return ResultVO.parameterError("该数据不能被初审通过");
             }
             memberService.updateStatus(memberId, MemberStatusEnum.FINAL_CHECK.getId());
             return ResultVO.success();
@@ -185,7 +185,7 @@ public class MemberApiController {
 
 
     /**
-     *  --终审通过
+     *  终审通过
      * @param memberId
      * @return
      */
@@ -196,7 +196,7 @@ public class MemberApiController {
             // check 改状态是否能被修改
             Member member = memberService.getById(memberId);
             if(member ==null || !member.getStatus().equals(MemberStatusEnum.FINAL_CHECK.getId())){
-                return ResultVO.parameterError("该用户不能被终身完成");
+                return ResultVO.parameterError("该数据不能被终审完成");
             }
             memberService.updateStatus(memberId, MemberStatusEnum.SUCCESS.getId());
             return ResultVO.success();
@@ -234,7 +234,7 @@ public class MemberApiController {
         try {
             Member member = memberService.getById(memberId);
             if(member ==null || !member.getStatus().equals(MemberStatusEnum.FINAL_CHECK.getId())){
-                return ResultVO.parameterError("该用户不能终审拒绝");
+                return ResultVO.parameterError("该数据不能被终审拒绝");
             }
             memberService.updateStatus(memberId, MemberStatusEnum.REJECT.getId());
             return ResultVO.success();

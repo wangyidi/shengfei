@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.shengfei.vo.UserVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -242,6 +243,9 @@ public class Member implements Serializable {
 
     @TableField(exist = false)
     private List<MemberImage> imageList;
+
+    @TableField(exist = false)
+    private UserVO sysUserBean;
 
     @TableField("sys_user_id")
     private Integer sysUserId;
