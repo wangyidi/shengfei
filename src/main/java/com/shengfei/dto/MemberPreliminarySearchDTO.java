@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 public class MemberPreliminarySearchDTO {
 
-    private int pageNum = 1;
+    private int pageNum;
 
-    private int pageSize = 10;
+    private int pageSize;
 
 }

@@ -54,6 +54,7 @@ public class MemberApiController {
                 return ResultVO.parameterError(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
             }
 
+            member.setLendingInstitutions("永安村镇银行");
             member.setSysUserId(userId);
             Integer id = memberService.createMember(member);
             HashMap<String,Object> map = new HashMap<>();
@@ -77,7 +78,7 @@ public class MemberApiController {
     @GetMapping("/member/{id}")
     public ResultVO getMember(@PathVariable Integer id) {
         try {
-           Member member = memberService.getMember(id);
+            Member member = memberService.getMember(id);
             log.info("查询客户详情 成功");
             return ResultVO.success(member,"添加完成");
         }catch (Exception e){
@@ -114,7 +115,6 @@ public class MemberApiController {
     @PostMapping("/preliminary/members")
     public ResultVO getPreliminaryMemberList(@RequestBody MemberPreliminarySearchDTO memberSearchDTO) {
         try {
-            // 获取用户信息
             // 获取用户信息
             Subject subject = SecurityUtils.getSubject();
             User user = new User();

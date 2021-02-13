@@ -1,6 +1,7 @@
 package com.shengfei.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shengfei.entity.Permission;
 import com.shengfei.service.PermissionService;
 import com.shengfei.shiro.vo.ResultVO;
@@ -27,7 +28,7 @@ public class MenuApiController {
     @GetMapping("/menus")
     public ResultVO list() {
         try {
-            List<Permission>  menuList = permissionService.list();
+            List<Permission>  menuList = permissionService.list(new QueryWrapper<>());
             return ResultVO.success(menuList,"菜单列表查询成功");
         }catch (Exception e){
             log.error("菜单列表查询错误：{}",e.getMessage(),e);

@@ -121,11 +121,9 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     @Override
     public PageInfo<Member> getMemberList(MemberSearchDTO memberSearchDTO) {
 
-        PageHelper.startPage(memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
-
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("create_date");
-        return getMemberPageInfo(queryWrapper);
+        return getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
     }
 
     /**
@@ -137,13 +135,11 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     @Override
     public PageInfo<Member> getPreliminaryMemberList(MemberPreliminarySearchDTO memberSearchDTO,Integer userId) {
 
-        PageHelper.startPage(memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
-
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("create_date");
         queryWrapper.eq("sys_user_id",userId);
 
-        return getMemberPageInfo(queryWrapper);
+        return getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
     }
 
     /**
@@ -154,13 +150,11 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     @Override
     public PageInfo<Member> getWaiteCheckMemberList(MemberWaiteSearchDTO memberSearchDTO) {
 
-        PageHelper.startPage(memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
-
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("create_date");
         queryWrapper.eq("status",MemberStatusEnum.WAITE_CHECK);
 
-        return getMemberPageInfo(queryWrapper);
+        return getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
     }
 
     @Override
@@ -180,21 +174,21 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     @Override
     public PageInfo<Member> getFinalCheckMemberList(MemberFinalSearchDTO memberSearchDTO) {
 
-        PageHelper.startPage(memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
 
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("create_date");
         queryWrapper.in("status",MemberStatusEnum.FINAL_CHECK,MemberStatusEnum.REJECT,MemberStatusEnum.SUCCESS);
 
-        return getMemberPageInfo(queryWrapper);
+        return getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
     }
 
 
 
 
 
-    private PageInfo<Member> getMemberPageInfo(QueryWrapper<Member> queryWrapper) {
-        List<Member> memberList = list(queryWrapper);
+    private PageInfo<Member> getMemberPageInfo(QueryWrapper<Member> queryWrapper,int pageNum,int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<Member> memberList = memberMapper.selectList(queryWrapper);
 
         memberList.forEach(e->{
             Integer id = e.getId();

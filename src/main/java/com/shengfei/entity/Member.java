@@ -241,6 +241,9 @@ public class Member implements Serializable {
     @TableField("education")
     private Integer education;
 
+    @TableField("lending_institutions")
+    private String lendingInstitutions;
+
     @TableField(exist = false)
     private List<MemberImage> imageList;
 
