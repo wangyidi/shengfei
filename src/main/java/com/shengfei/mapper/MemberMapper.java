@@ -17,14 +17,14 @@ public interface MemberMapper extends BaseMapper<Member> {
             ",company_province,company_city,company_area,company_detail,work_age,salary,company_tel" +
             ",major_source_revenue,social_security_flag,assets_flag,company_code,company_nature,profession" +
             ",position,company_tel_code,onboard_time,house_source,house_type,emergency_contact,emergency_contact_tel" +
-            ",emergency_contact_phone,emergency_contact_relation,education) " +
-            "values(#{create_date}, #{name}, #{sex}, #{age}, #{idCard}, #{idCardStation}, #{birthday}, #{addressDetail}" +
+            ",emergency_contact_phone,emergency_contact_relation,education,sys_user_id,status) " +
+            "values(#{createDate}, #{name}, #{sex}, #{age}, #{idCard}, #{idCardStation}, #{birthday}, #{addressDetail}" +
             ",#{marriage}, #{phone}, #{healthy}, #{currentProvince}, #{currentCity}, #{currentArea}, #{currentDetail}" +
             ",#{familyNum}, #{liveStatus}, #{telephoneAreaCode}, #{zipCode}, #{familySalary}, #{companyName} " +
             ",#{companyProvince}, #{companyCity}, #{companyArea}, #{companyDetail}, #{workAge}, #{salary}, #{companyTel}" +
             ",#{majorSourceRevenue}, #{socialSecurityFlag}, #{assetsFlag}, #{companyCode}, #{companyNature}, #{profession}" +
             ",#{position}, #{companyTelCode}, #{onboardTime}, #{houseSource}, #{houseType}, #{emergencyContact}, #{emergencyContactTel}" +
-            ",#{emergencyContactPhone}, #{emergencyContactRelation}, #{education})" })
+            ",#{emergencyContactPhone}, #{emergencyContactRelation}, #{education},#{sysUserId},#{status})" })
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int createMember(Member member);
 

@@ -40,12 +40,12 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void createMember(Member member) {
+    public Integer createMember(Member member) {
         // 待审上传
         member.setStatus(MemberStatusEnum.WAITE_CHECK.getId());
-
-        Integer id = memberMapper.createMember(member);
-
+        member.setCreateDate(new Date());
+        memberMapper.createMember(member);
+        Integer id = member.getId();
         List<MemberImage> imageList = member.getImageList();
         if (!ValidatorUtils.empty(imageList)) {
             imageList.forEach(e->{
@@ -54,6 +54,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
             });
         }
         memberImageService.saveBatch(imageList);
+        return id;
     }
 
     /**

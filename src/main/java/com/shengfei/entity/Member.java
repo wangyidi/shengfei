@@ -35,7 +35,7 @@ public class Member implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @TableField("create_date")
+    @TableField(value="create_date")
     private Date createDate;
 
     @Length(min = 1,max = 10,message = "名字长度在1～10之间")
@@ -62,8 +62,6 @@ public class Member implements Serializable {
 
     @ApiModelProperty(value = "生日")
     @NotBlank
-    @Length(min = 1,max = 20,message = "birthday 应哎1-20")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String birthday;
 
     @ApiModelProperty(value = "身份证地址")

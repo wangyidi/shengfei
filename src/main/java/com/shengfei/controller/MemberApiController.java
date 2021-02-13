@@ -15,11 +15,13 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.BeanUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.Objects;
 
 
@@ -44,7 +46,8 @@ public class MemberApiController {
         try {
             // 获取用户信息
             Subject subject = SecurityUtils.getSubject();
-            User user = (User) subject.getPrincipal();
+            User user = new User();
+            BeanUtils.copyProperties(subject.getPrincipal(),user);
             Integer userId = user.getId();
 
             if (!ValidatorUtils.validate(MemberApiController.class,bindingResult)) {
@@ -52,9 +55,11 @@ public class MemberApiController {
             }
 
             member.setSysUserId(userId);
-            memberService.createMember(member);
+            Integer id = memberService.createMember(member);
+            HashMap<String,Object> map = new HashMap<>();
+            map.put("memberId",id);
             log.info("客户添加成功");
-            return ResultVO.success("添加完成");
+            return ResultVO.success(map,"添加完成");
         }catch (Exception e){
             log.error("客户添加失败：{}",e.getMessage(),e);
             return ResultVO.systemError(e.getMessage());
@@ -110,8 +115,10 @@ public class MemberApiController {
     public ResultVO getPreliminaryMemberList(@RequestBody MemberPreliminarySearchDTO memberSearchDTO) {
         try {
             // 获取用户信息
+            // 获取用户信息
             Subject subject = SecurityUtils.getSubject();
-            User user = (User) subject.getPrincipal();
+            User user = new User();
+            BeanUtils.copyProperties(subject.getPrincipal(),user);
             Integer userId = user.getId();
 
             return ResultVO.success(memberService.getPreliminaryMemberList(memberSearchDTO,userId),"查询客户待审列表");

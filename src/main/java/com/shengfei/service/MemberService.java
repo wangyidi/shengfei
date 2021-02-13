@@ -15,7 +15,7 @@ public interface MemberService extends IService<Member> {
      * 创建用户
      * @param member
      */
-    void createMember(Member member);
+    Integer createMember(Member member);
 
     /**
      * 查询客户详情
