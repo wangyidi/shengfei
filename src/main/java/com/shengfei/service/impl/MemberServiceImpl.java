@@ -41,6 +41,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Integer createMember(Member member) {
+
         // 待审上传
         member.setStatus(MemberStatusEnum.WAITE_CHECK.getId());
         member.setCreateDate(new Date());

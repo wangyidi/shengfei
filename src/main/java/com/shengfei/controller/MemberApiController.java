@@ -215,7 +215,7 @@ public class MemberApiController {
     @GetMapping("/return/{memberId}")
     public ResultVO returnCheck(@PathVariable Integer memberId) {
         try {
-            memberService.updateStatus(memberId, MemberStatusEnum.WAITE_CHECK.getId());
+            memberService.updateStatus(memberId, MemberStatusEnum.RETURN_INIT_CHECK.getId());
             return ResultVO.success();
         }catch (Exception e){
             log.error("退回到待审失败：{}",e.getMessage(),e);
