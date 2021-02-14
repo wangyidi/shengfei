@@ -64,8 +64,8 @@ public class UserApiController {
 
 
     @ApiOperation("查看用户详细信息")
-    @PostMapping("/user")
-    public Object view(Integer userId) {
+    @GetMapping("/user/{userId}")
+    public Object view(@PathVariable Integer userId) {
 
         Map<String,Object> maps = new HashMap<>();
         maps.put("user",shiroService.findByUserId(userId));

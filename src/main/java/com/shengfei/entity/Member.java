@@ -8,12 +8,11 @@ import java.util.Date;
 import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.shengfei.vo.UserVO;
-import freemarker.template.utility.StringUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.*;
@@ -262,6 +261,6 @@ public class Member implements Serializable {
 
 
     public String getSequence() {
-        return StringUtil.leftPad(sequence,8,"0");
+        return StringUtils.leftPad(sequence,8,"0");
     }
 }
