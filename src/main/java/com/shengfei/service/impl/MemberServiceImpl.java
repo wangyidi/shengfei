@@ -158,7 +158,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     public void updateStatus(Integer memberId, Integer status) {
         Map<String,Object> map = new HashMap<>();
         map.put("memberId",memberId);
-        map.put("status",MemberStatusEnum.SUCCESS.getId());
+        map.put("status",status);
         memberMapper.updateStatus(map);
     }
 
