@@ -45,7 +45,7 @@ public interface ShiroService {
      */
     void logout(String token);
 
-    PageInfo<User> page(PageBean page, UserSearchDTO user);
+    PageInfo<User> page(UserSearchDTO user);
 
     Boolean createUser(User user);
 }

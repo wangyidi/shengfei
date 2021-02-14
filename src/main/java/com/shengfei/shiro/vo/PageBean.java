@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 public class PageBean implements Serializable {
     @ApiModelProperty(value = "每页页数")
-    private int pageNum = 1;
+    private int pageNum;
     @ApiModelProperty(value = "每页条数")
-    private int pageSize = 10;
+    private int pageSize;
 }

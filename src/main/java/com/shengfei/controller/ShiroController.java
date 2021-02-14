@@ -68,21 +68,6 @@ public class ShiroController {
         shiroService.logout(token);
         return ResultVO.success("您已安全退出系统");
     }
-
-//    /**
-//     * 验证是否登陆过-实现 不能异步登陆逻辑
-//     */
-//    @ApiOperation("验证是否登陆过-实现 不能异步登陆逻辑")
-//    @PostMapping("/sys/checkLogin")
-//    public ResultVO checkLogin() {
-//        Subject subject = SecurityUtils.getSubject();
-//        // 判断是否认证成功
-//        if (!subject.isAuthenticated()) {
-//            return ResultVO.systemError("登录凭证已失效，请重新登录");
-//        }
-//        return ResultVO.success("校验通过");
-//    }
-
     /**
      * 注册
      *

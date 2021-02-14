@@ -152,7 +152,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
 
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("create_date");
-        queryWrapper.eq("status",MemberStatusEnum.WAITE_CHECK);
+        queryWrapper.eq("status",MemberStatusEnum.WAITE_CHECK.getId());
 
         return getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
     }
@@ -177,7 +177,8 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
 
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("create_date");
-        queryWrapper.in("status",MemberStatusEnum.FINAL_CHECK,MemberStatusEnum.REJECT,MemberStatusEnum.SUCCESS);
+        queryWrapper.orderByAsc("status");
+        queryWrapper.in("status",MemberStatusEnum.FINAL_CHECK.getId(),MemberStatusEnum.REJECT.getId(),MemberStatusEnum.SUCCESS.getId());
 
         return getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
     }

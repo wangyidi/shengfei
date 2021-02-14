@@ -144,7 +144,7 @@ public class ShiroServiceImpl implements ShiroService
     }
 
     @Override
-    public PageInfo<User> page(PageBean page, UserSearchDTO user) {
+    public PageInfo<User> page(UserSearchDTO user) {
         QueryWrapper<User> queryWrapper  = new QueryWrapper<>();
         if (!ValidatorUtils.empty(user.getName())){
             queryWrapper.like("name",user.getName());
@@ -152,16 +152,13 @@ public class ShiroServiceImpl implements ShiroService
         if (!ValidatorUtils.empty(user.getCompanyName())){
             queryWrapper.like("company_name",user.getCompanyName());
         }
-        if (!ValidatorUtils.empty(user.getIdCard())){
-            queryWrapper.like("id_card",user.getIdCard());
-        }
         if (!ValidatorUtils.empty(user.getMobile())){
             queryWrapper.like("mobile",user.getMobile());
         }
         if (!ValidatorUtils.empty(user.getStation())){
             queryWrapper.like("station",user.getStation());
         }
-        PageHelper.startPage(page.getPageNum(),page.getPageSize());
+        PageHelper.startPage(user.getPageNum(),user.getPageSize());
         List<User> userList = userMapper.selectList(queryWrapper);
         return new PageInfo<>(userList);
     }

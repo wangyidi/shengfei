@@ -51,10 +51,10 @@ public class UserApiController {
     private UserMapper userMapper;
 
     @ApiOperation("用户列表")
-    @GetMapping("/list")
-    public Object list(UserSearchDTO userSearchDTO, PageBean pageBean) {
+    @PostMapping("/list")
+    public Object list(@RequestBody UserSearchDTO userSearchDTO) {
         try {
-            PageInfo<User> userPage = shiroService.page(pageBean,userSearchDTO);
+            PageInfo<User> userPage = shiroService.page(userSearchDTO);
             return ResultVO.success(userPage,"查询成功");
         }catch (Exception e){
             log.error("用户列表查询错误：{}",e.getMessage(),e);
