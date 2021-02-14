@@ -122,7 +122,6 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     public PageInfo<Member> getMemberList(MemberSearchDTO memberSearchDTO) {
 
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByDesc("create_date");
         return getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
     }
 
@@ -136,7 +135,6 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     public PageInfo<Member> getPreliminaryMemberList(MemberPreliminarySearchDTO memberSearchDTO,Integer userId) {
 
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByDesc("create_date");
         queryWrapper.eq("sys_user_id",userId);
 
         return getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
@@ -151,7 +149,6 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     public PageInfo<Member> getWaiteCheckMemberList(MemberWaiteSearchDTO memberSearchDTO) {
 
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByDesc("create_date");
         queryWrapper.eq("status",MemberStatusEnum.WAITE_CHECK.getId());
 
         return getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
@@ -174,9 +171,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     @Override
     public PageInfo<Member> getFinalCheckMemberList(MemberFinalSearchDTO memberSearchDTO) {
 
-
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByDesc("create_date");
         queryWrapper.orderByAsc("status");
         queryWrapper.in("status",MemberStatusEnum.FINAL_CHECK.getId(),MemberStatusEnum.REJECT.getId(),MemberStatusEnum.SUCCESS.getId());
 
@@ -189,6 +184,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
 
     private PageInfo<Member> getMemberPageInfo(QueryWrapper<Member> queryWrapper,int pageNum,int pageSize) {
         PageHelper.startPage(pageNum,pageSize);
+        queryWrapper.orderByDesc("create_date");
         List<Member> memberList = memberMapper.selectList(queryWrapper);
 
         memberList.forEach(e->{

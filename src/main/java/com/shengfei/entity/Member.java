@@ -10,6 +10,7 @@ import java.util.List;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.shengfei.vo.UserVO;
+import freemarker.template.utility.StringUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -255,4 +256,12 @@ public class Member implements Serializable {
 
     @TableField("status")
     private Integer status;
+
+    @TableField("sequence")
+    private String sequence;
+
+
+    public String getSequence() {
+        return StringUtil.leftPad(sequence,8,"0");
+    }
 }
