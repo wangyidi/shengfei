@@ -99,7 +99,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     @Override
     public Boolean updateMember(Member member) {
         Integer id = member.getId();
-
+        member.setStatus(MemberStatusEnum.WAITE_CHECK.getId());
         memberMapper.updateById(member);
 
         List<MemberImage> imageList = member.getImageList();
