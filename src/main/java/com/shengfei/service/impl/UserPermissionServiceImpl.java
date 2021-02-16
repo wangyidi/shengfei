@@ -24,17 +24,19 @@ public class UserPermissionServiceImpl extends ServiceImpl<UserPermissionMapper,
 
         QueryWrapper<UserPermission> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id",userMenuAdd.getUserId());
-        queryWrapper.in("permission_id",userMenuAdd.getPermissionIds());
         remove(queryWrapper);
 
         List<UserPermission>list = new ArrayList<>();
-        userMenuAdd.getPermissionIds().forEach(e->{
-            UserPermission userPermission = new UserPermission();
-            userPermission.setUserId(userMenuAdd.getUserId());
-            userPermission.setPermissionId(e);
-            list.add(userPermission);
-        });
-        saveBatch(list);
+        if(userMenuAdd.getPermissionIds().size()>0){
+            userMenuAdd.getPermissionIds().forEach(e->{
+                UserPermission userPermission = new UserPermission();
+                userPermission.setUserId(userMenuAdd.getUserId());
+                userPermission.setPermissionId(e);
+                list.add(userPermission);
+            });
+            saveBatch(list);
+        }
+
     }
 
 

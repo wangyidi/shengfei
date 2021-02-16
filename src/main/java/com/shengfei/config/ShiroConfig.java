@@ -150,6 +150,7 @@ public class ShiroConfig {
         filterMap.put("/v2/api-docs", "anon");
         filterMap.put("/v2/api-docs-ext", "anon");
         filterMap.put("/sys/login", "anon");
+        filterMap.put("/sys/h5/login", "anon");
         filterMap.put("/sys/register","anon");
         filterMap.put("/captcha/code","anon");
         filterMap.put("/druid/**","anon");

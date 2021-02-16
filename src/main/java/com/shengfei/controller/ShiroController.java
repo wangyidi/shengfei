@@ -2,11 +2,15 @@ package com.shengfei.controller;
 
 
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shengfei.dto.LoginDTO;
 import com.shengfei.dto.UserDTO;
 import com.shengfei.entity.User;
+import com.shengfei.entity.UserPermission;
+import com.shengfei.mapper.UserPermissionMapper;
 import com.shengfei.service.ShiroService;
 import com.shengfei.shiro.vo.ResultVO;
+import com.shengfei.shiro.vo.RolePermissionParam;
 import com.shengfei.utils.ValidatorUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -30,6 +35,8 @@ public class ShiroController {
     @Resource
     private ShiroService shiroService;
 
+    @Resource
+    private UserPermissionMapper userPermissionMapper;
     /**
      * 登录
      */
@@ -50,6 +57,43 @@ public class ShiroController {
             }
             Map<String,Object> token = shiroService.createToken(user.getId());
             return ResultVO.success(token,"登录成功");
+        }catch (Exception e){
+            log.error("登陆异常：{}",e.getMessage(),e);
+            return ResultVO.systemError("登陆异常 :"+e.getMessage());
+
+        }
+    }
+
+
+    /**
+     * h5登录
+     */
+    @ApiOperation("h5登陆")
+    @PostMapping("/sys/h5/login")
+    public ResultVO h5login(@RequestBody @Validated LoginDTO loginDTO, BindingResult bindingResult) {
+        try {
+            if (!ValidatorUtils.validate(ShiroController.class, bindingResult)) {
+                return ResultVO.parameterError(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+            }
+            log.info("开始登陆 {}",loginDTO.getMobile());
+            User user = shiroService.findByUserMobile(loginDTO.getMobile());
+            if(user == null) {
+                return ResultVO.parameterError("用户不存在！！！");
+            }
+            if (!user.getPassword().equals(loginDTO.getPassword())) {
+                return ResultVO.parameterError("账号或密码有误");
+            }
+
+            List<UserPermission> userPermissionList = userPermissionMapper.selectList(new QueryWrapper<UserPermission>().eq("user_id",user.getId()));
+            if(!ValidatorUtils.empty(userPermissionList)){
+                if(userPermissionList.stream().anyMatch(m->m.getPermissionId().equals(3))){
+                    Map<String,Object> token = shiroService.createToken(user.getId());
+                    return ResultVO.success(token,"登录成功");
+                }
+            }
+            return ResultVO.parameterError("该用户无权限");
+
+
         }catch (Exception e){
             log.error("登陆异常：{}",e.getMessage(),e);
             return ResultVO.systemError("登陆异常 :"+e.getMessage());
