@@ -6,8 +6,15 @@ import lombok.Data;
 @Data
 public class MemberSearchDTO {
 
-    private int pageNum = 1;
+    private int pageNum;
 
-    private int pageSize = 10;
+    private int pageSize;
 
+    private String startTime;
+
+    private String endTime;
+
+    private String name;
+
+    private String idCard;
 }

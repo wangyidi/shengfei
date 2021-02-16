@@ -10,4 +10,11 @@ public class MemberFinalSearchDTO {
 
     private int pageSize;
 
+    private String startTime;
+
+    private String endTime;
+
+    private String name;
+
+    private String idCard;
 }

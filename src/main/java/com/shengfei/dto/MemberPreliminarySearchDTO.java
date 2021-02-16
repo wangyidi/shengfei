@@ -10,4 +10,10 @@ public class MemberPreliminarySearchDTO {
 
     private int pageSize;
 
+    private String startTime;
+
+    private String endTime;
+
+    private String name;
+
 }

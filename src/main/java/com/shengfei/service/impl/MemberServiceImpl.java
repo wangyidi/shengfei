@@ -20,6 +20,7 @@ import com.shengfei.service.MemberImageService;
 import com.shengfei.service.MemberService;
 import com.shengfei.utils.ValidatorUtils;
 import com.shengfei.vo.UserVO;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -122,11 +123,23 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     public PageInfo<Member> getMemberList(MemberSearchDTO memberSearchDTO) {
 
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
+        if (StringUtils.isNotEmpty(memberSearchDTO.getStartTime())) {
+            queryWrapper.gt("create_date",memberSearchDTO.getStartTime());
+        }
+        if (StringUtils.isNotEmpty(memberSearchDTO.getEndTime())) {
+            queryWrapper.lt("create_date",memberSearchDTO.getEndTime());
+        }
+        if (StringUtils.isNotEmpty(memberSearchDTO.getName())) {
+            queryWrapper.like("name",memberSearchDTO.getName());
+        }
+        if (StringUtils.isNotEmpty(memberSearchDTO.getIdCard())) {
+            queryWrapper.like("id_card",memberSearchDTO.getIdCard());
+        }
         return getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
     }
 
     /**
-     * 获取初审列表
+     * 获取待审列表
      * @param memberSearchDTO
      * @param userId
      * @return
@@ -137,7 +150,22 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("sys_user_id",userId);
 
-        return getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
+        if (StringUtils.isNotEmpty(memberSearchDTO.getStartTime())) {
+            queryWrapper.gt("create_date",memberSearchDTO.getStartTime());
+        }
+        if (StringUtils.isNotEmpty(memberSearchDTO.getEndTime())) {
+            queryWrapper.lt("create_date",memberSearchDTO.getEndTime());
+        }
+        if (StringUtils.isNotEmpty(memberSearchDTO.getName())) {
+            queryWrapper.like("name",memberSearchDTO.getName());
+        }
+        PageInfo<Member> list = getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
+        List<Member> memberList = list.getList();
+        // phone 脱敏
+        memberList.forEach(e->
+            e.setIdCard(desensitizedIdNumber(e.getIdCard()))
+        );
+        return list;
     }
 
     /**
@@ -151,6 +179,18 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("status",MemberStatusEnum.WAITE_CHECK.getId());
 
+        if (StringUtils.isNotEmpty(memberSearchDTO.getStartTime())) {
+            queryWrapper.gt("create_date",memberSearchDTO.getStartTime());
+        }
+        if (StringUtils.isNotEmpty(memberSearchDTO.getEndTime())) {
+            queryWrapper.lt("create_date",memberSearchDTO.getEndTime());
+        }
+        if (StringUtils.isNotEmpty(memberSearchDTO.getName())) {
+            queryWrapper.like("name",memberSearchDTO.getName());
+        }
+        if (StringUtils.isNotEmpty(memberSearchDTO.getIdCard())) {
+            queryWrapper.like("id_card",memberSearchDTO.getIdCard());
+        }
         return getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
     }
 
@@ -174,6 +214,19 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByAsc("status");
         queryWrapper.in("status",MemberStatusEnum.FINAL_CHECK.getId(),MemberStatusEnum.REJECT.getId(),MemberStatusEnum.SUCCESS.getId());
+
+        if (StringUtils.isNotEmpty(memberSearchDTO.getStartTime())) {
+            queryWrapper.gt("create_date",memberSearchDTO.getStartTime());
+        }
+        if (StringUtils.isNotEmpty(memberSearchDTO.getEndTime())) {
+            queryWrapper.lt("create_date",memberSearchDTO.getEndTime());
+        }
+        if (StringUtils.isNotEmpty(memberSearchDTO.getName())) {
+            queryWrapper.like("name",memberSearchDTO.getName());
+        }
+        if (StringUtils.isNotEmpty(memberSearchDTO.getIdCard())) {
+            queryWrapper.like("id_card",memberSearchDTO.getIdCard());
+        }
 
         return getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
     }
@@ -202,5 +255,21 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
 
 
         return new PageInfo<>(memberList);
+    }
+
+
+
+
+
+    private  String desensitizedIdNumber(String idNumber){
+        if (!StringUtils.isEmpty(idNumber)) {
+            if (idNumber.length() == 15){
+                idNumber = idNumber.replaceAll("(\\w{6})\\w*(\\w{3})", "$1******$2");
+            }
+            if (idNumber.length() == 18){
+                idNumber = idNumber.replaceAll("(\\w{6})\\w*(\\w{3})", "$1*********$2");
+            }
+        }
+        return idNumber;
     }
 }
