@@ -116,7 +116,7 @@ public class ShiroController {
      * @return
      */
     @ApiOperation("注册")
-    @PostMapping("/sys/register")
+    @PostMapping("/api/sys/register")
     public ResultVO register(@RequestBody @Validated UserDTO userDTO, BindingResult bindingResult) {
         try {
             if (!ValidatorUtils.validate(ShiroController.class, bindingResult)) {

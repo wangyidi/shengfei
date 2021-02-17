@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -222,10 +223,6 @@ public class Member implements Serializable {
     @TableField("emergency_contact")
     private String emergencyContact;
 
-    @ApiModelProperty(value = "紧急电话")
-    @TableField("emergency_contact_tel")
-    private String emergencyContactTel;
-
     @NotBlank(message = "emergencyContactPhone is not null")
     @ApiModelProperty(value = "紧急手机")
     @TableField("emergency_contact_phone")
@@ -236,10 +233,33 @@ public class Member implements Serializable {
     @TableField("emergency_contact_relation")
     private String emergencyContactRelation;
 
+    @NotBlank(message = "emergencyContactBK is not null")
+    @ApiModelProperty(value = "紧急联系人_bk")
+    @TableField("emergency_contact_bk")
+    private String emergencyContactBK;
+
+    @NotBlank(message = "emergencyContactPhoneBK is not null")
+    @ApiModelProperty(value = "紧急手机_bk")
+    @TableField("emergency_contact_phone_bk")
+    private String emergencyContactPhoneBK;
+
+    @NotBlank(message = "emergencyContactRelationBK is not null")
+    @ApiModelProperty(value = "紧急关系_bk")
+    @TableField("emergency_contact_relation_bk")
+    private String emergencyContactRelationBK;
+
     @NotNull(message = "education is not null")
     @ApiModelProperty(value = "学历")
     @TableField("education")
     private Integer education;
+
+    @ApiModelProperty(value = "业务类型 0快贷 1二拆 3信贷")
+    @TableField("business_type")
+    private Integer businessType;
+
+    @ApiModelProperty(value = "申请金额")
+    @TableField("apply_amount")
+    private BigDecimal applyAmount;
 
     @TableField("lending_institutions")
     private String lendingInstitutions;
