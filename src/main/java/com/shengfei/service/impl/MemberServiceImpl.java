@@ -61,8 +61,8 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
                 e.setCreateTime(new Date());
                 e.setMemberId(id);
             });
+            memberImageService.saveBatch(imageList);
         }
-        memberImageService.saveBatch(imageList);
         return id;
     }
 

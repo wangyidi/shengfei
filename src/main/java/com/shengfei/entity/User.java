@@ -52,4 +52,8 @@ public class User implements Serializable {
 
     @TableField(exist = false)
     private String search;
+
+    @TableField(value = "branch_company")
+    @ApiModelProperty(value = "分支机构")
+    private String branchCompany;
 }

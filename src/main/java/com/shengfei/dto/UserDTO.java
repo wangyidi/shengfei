@@ -1,5 +1,6 @@
 package com.shengfei.dto;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -43,4 +44,6 @@ public class UserDTO implements Serializable {
     @ApiModelProperty(value = "岗位",required = true)
     private String station;
 
+    @ApiModelProperty(value = "分支机构")
+    private String branchCompany;
 }

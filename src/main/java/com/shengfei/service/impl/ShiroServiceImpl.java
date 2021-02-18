@@ -172,6 +172,7 @@ public class ShiroServiceImpl implements ShiroService
         }
         userMapper.insert(ObjectUtil.initObject(user)
                 .init(v-> v.setStation(user.getStation()))
+                .init(v-> v.setBranchCompany(user.getBranchCompany()))
                 .init(v-> v.setCompanyName(user.getCompanyName()))
                 .init(v -> v.setMobile(user.getMobile()))
                 .init(v -> v.setPassword(user.getPassword()))

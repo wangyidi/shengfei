@@ -37,8 +37,11 @@ public class Member implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @TableField(value="create_date")
-    private Date createDate;
+    @TableField("status")
+    private Integer status;
+
+    @TableField("sequence")
+    private String sequence;
 
     @Length(min = 1,max = 10,message = "名字长度在1～10之间")
     private String name;
@@ -56,11 +59,6 @@ public class Member implements Serializable {
     @ApiModelProperty(value = "身份证号")
     @TableField("id_card")
     private String idCard;
-
-    @Length(min = 1,max = 50,message ="idCardStation 1-50" )
-    @ApiModelProperty(value = "身份证归属地")
-    @TableField("id_card_station")
-    private String idCardStation;
 
     @ApiModelProperty(value = "生日")
     @NotBlank
@@ -104,7 +102,6 @@ public class Member implements Serializable {
     private String currentDetail;
 
     @ApiModelProperty(value = "家庭成员数")
-    @Min(value = 1)
     @TableField("family_num")
     private Integer familyNum;
 
@@ -113,15 +110,6 @@ public class Member implements Serializable {
     @TableField("live_status")
     private String liveStatus;
 
-    @ApiModelProperty(value = "电话区号")
-    @NotBlank(message = "telephoneAreaCode is not null")
-    @TableField("telephone_area_code")
-    private String telephoneAreaCode;
-
-    @NotBlank(message = "zipCode is not null")
-    @ApiModelProperty(value = "邮编")
-    @TableField("zip_code")
-    private String zipCode;
 
     @ApiModelProperty(value = "家庭收入")
     @TableField("family_salary")
@@ -180,7 +168,6 @@ public class Member implements Serializable {
     @TableField("assets_flag")
     private Integer assetsFlag;
 
-    @NotBlank(message = "companyCode is not null")
     @ApiModelProperty(value = "公司邮编")
     @TableField("company_code")
     private String companyCode;
@@ -198,18 +185,13 @@ public class Member implements Serializable {
     @ApiModelProperty(value = "职务")
     private String position;
 
-    @ApiModelProperty(value = "公司-电话区号")
-    @NotBlank(message = "companyTelCode is not null")
-    @TableField("company_tel_code")
-    private String companyTelCode;
 
-    @NotBlank(message = "onboardTime is not null")
     @ApiModelProperty(value = "入职时间")
     @TableField("onboard_time")
     private String onboardTime;
 
     @NotBlank(message = "houseSource is not null")
-    @ApiModelProperty(value = "房屋来源")
+    @ApiModelProperty(value = "住房性质")
     @TableField("house_source")
     private String houseSource;
 
@@ -218,66 +200,70 @@ public class Member implements Serializable {
     @TableField("house_type")
     private String houseType;
 
-    @NotBlank(message = "emergencyContact is not null")
     @ApiModelProperty(value = "紧急联系人")
     @TableField("emergency_contact")
     private String emergencyContact;
 
-    @NotBlank(message = "emergencyContactPhone is not null")
     @ApiModelProperty(value = "紧急手机")
     @TableField("emergency_contact_phone")
     private String emergencyContactPhone;
 
-    @NotBlank(message = "emergencyContactRelation is not null")
     @ApiModelProperty(value = "紧急关系")
     @TableField("emergency_contact_relation")
     private String emergencyContactRelation;
 
-    @NotBlank(message = "emergencyContactBK is not null")
-    @ApiModelProperty(value = "紧急联系人_bk")
-    @TableField("emergency_contact_bk")
-    private String emergencyContactBK;
-
-    @NotBlank(message = "emergencyContactPhoneBK is not null")
-    @ApiModelProperty(value = "紧急手机_bk")
-    @TableField("emergency_contact_phone_bk")
-    private String emergencyContactPhoneBK;
-
-    @NotBlank(message = "emergencyContactRelationBK is not null")
-    @ApiModelProperty(value = "紧急关系_bk")
-    @TableField("emergency_contact_relation_bk")
-    private String emergencyContactRelationBK;
-
-    @NotNull(message = "education is not null")
     @ApiModelProperty(value = "学历")
     @TableField("education")
     private Integer education;
 
-    @ApiModelProperty(value = "业务类型 0快贷 1二拆 3信贷")
-    @TableField("business_type")
-    private Integer businessType;
 
     @ApiModelProperty(value = "申请金额")
     @TableField("apply_amount")
     private BigDecimal applyAmount;
 
+    @ApiModelProperty(value = "贷款机构")
     @TableField("lending_institutions")
     private String lendingInstitutions;
+
+    @TableField("sys_user_id")
+    private Integer sysUserId;
+
+    @TableField(value="create_date")
+    private Date createDate;
+
+    @ApiModelProperty(value ="房产土地性质（国有出让 国有划拨 国有租赁 工业用地 集体土地 其他）")
+    @TableField(value="property_land")
+    private Integer propertyLand;
+
+    @ApiModelProperty(value ="住房年限")
+    @TableField(value="house_years")
+    private Integer houseYears;
+
+    @NotNull(message = "loanProduct is not null")
+    @ApiModelProperty(value ="产品:永安快贷，永安快贷_顺位贷，个人抵押贷款，个人房屋按揭贷款，个人信用贷款")
+    @TableField(value="loan_product")
+    private Integer loanProduct;
+
+    @NotNull(message = "loanProduct is not null")
+    @ApiModelProperty(value ="贷款期限 （月)")
+    @TableField(value="loan_time")
+    private Integer loanTime;
+
+    @NotNull(message = "repaymentMethod is not null")
+    @ApiModelProperty(value ="还款方式")
+    @TableField(value="repayment_method")
+    private Integer repaymentMethod;
+
+    @ApiModelProperty(value ="担保方式")
+    @TableField(value="assure_means")
+    private Integer assureMeans;
+
 
     @TableField(exist = false)
     private List<MemberImage> imageList;
 
     @TableField(exist = false)
     private UserVO sysUserBean;
-
-    @TableField("sys_user_id")
-    private Integer sysUserId;
-
-    @TableField("status")
-    private Integer status;
-
-    @TableField("sequence")
-    private String sequence;
 
 
     public String getSequence() {

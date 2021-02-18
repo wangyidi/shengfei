@@ -31,7 +31,7 @@ spring:
     date-format: yyy-MM-dd HH:mm:ss
     time-zone: GMT+8
   datasource:
-    url: jdbc:mysql://mysql57:3306/shengfei?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://47.105.195.101:3306/shengfei?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
     password: shengfei2021
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -75,7 +75,7 @@ spring:
 file:
   prefix: upload/
 redis:
-  host: redis
+  host: 47.105.195.101
   database: 0
   password: 2021!!
   port: 6379
