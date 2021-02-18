@@ -168,10 +168,6 @@ public class Member implements Serializable {
     @TableField("assets_flag")
     private Integer assetsFlag;
 
-    @ApiModelProperty(value = "公司邮编")
-    @TableField("company_code")
-    private String companyCode;
-
     @NotBlank(message = "companyNature is not null")
     @ApiModelProperty(value = "公司性质")
     @TableField("company_nature")
