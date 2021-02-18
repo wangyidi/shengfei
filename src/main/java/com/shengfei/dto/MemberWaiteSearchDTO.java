@@ -1,5 +1,6 @@
 package com.shengfei.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 
@@ -17,4 +18,7 @@ public class MemberWaiteSearchDTO {
     private String name;
 
     private String idCard;
+
+    @ApiModelProperty(value = "分支机构")
+    private String branchCompany;
 }

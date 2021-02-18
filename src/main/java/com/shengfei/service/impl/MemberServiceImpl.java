@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> implements MemberService {
@@ -191,6 +192,14 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         if (StringUtils.isNotEmpty(memberSearchDTO.getIdCard())) {
             queryWrapper.like("id_card",memberSearchDTO.getIdCard());
         }
+        if (StringUtils.isNotBlank(memberSearchDTO.getBranchCompany())) {
+            List<User>userList = userMapper.selectList(new QueryWrapper<User>().eq("branch_company",memberSearchDTO.getBranchCompany()));
+            if (ValidatorUtils.empty(userList)) {
+                return null;
+            }
+            List<Integer>ids = userList.stream().map(User::getId).collect(Collectors.toList());
+            queryWrapper.in("sys_user_id",ids);
+        }
         return getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
     }
 
@@ -215,18 +224,27 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         queryWrapper.orderByAsc("status");
         queryWrapper.in("status",MemberStatusEnum.FINAL_CHECK.getId(),MemberStatusEnum.REJECT.getId(),MemberStatusEnum.SUCCESS.getId());
 
-        if (StringUtils.isNotEmpty(memberSearchDTO.getStartTime())) {
+        if (StringUtils.isNotBlank(memberSearchDTO.getStartTime())) {
             queryWrapper.gt("create_date",memberSearchDTO.getStartTime());
         }
-        if (StringUtils.isNotEmpty(memberSearchDTO.getEndTime())) {
+        if (StringUtils.isNotBlank(memberSearchDTO.getEndTime())) {
             queryWrapper.lt("create_date",memberSearchDTO.getEndTime());
         }
-        if (StringUtils.isNotEmpty(memberSearchDTO.getName())) {
+        if (StringUtils.isNotBlank(memberSearchDTO.getName())) {
             queryWrapper.like("name",memberSearchDTO.getName());
         }
-        if (StringUtils.isNotEmpty(memberSearchDTO.getIdCard())) {
+        if (StringUtils.isNotBlank(memberSearchDTO.getIdCard())) {
             queryWrapper.like("id_card",memberSearchDTO.getIdCard());
         }
+        if (StringUtils.isNotBlank(memberSearchDTO.getBranchCompany())) {
+            List<User>userList = userMapper.selectList(new QueryWrapper<User>().eq("branch_company",memberSearchDTO.getBranchCompany()));
+            if (ValidatorUtils.empty(userList)) {
+                return null;
+            }
+            List<Integer>ids = userList.stream().map(User::getId).collect(Collectors.toList());
+            queryWrapper.in("sys_user_id",ids);
+        }
+
 
         return getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
     }
