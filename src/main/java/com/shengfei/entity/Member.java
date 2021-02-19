@@ -254,6 +254,26 @@ public class Member implements Serializable {
     @TableField(value="assure_means")
     private Integer assureMeans;
 
+    @ApiModelProperty(value ="社保公积金缴存地")
+    @TableField(value="social_security_deposit_place")
+    private String socialSecurityDepositPlace;
+
+    @ApiModelProperty(value ="公积金金额")
+    @TableField(value="social_security_fund_amount")
+    private BigDecimal socialSecurityFundAmount;
+
+    @ApiModelProperty(value ="营业面积")
+    @TableField(value="business_area")
+    private BigDecimal businessArea;
+
+    @ApiModelProperty(value ="营业额")
+    @TableField(value="turnover")
+    private BigDecimal turnover;
+
+    @ApiModelProperty(value ="年流水")
+    @TableField(value="annual_run_amount")
+    private BigDecimal annualRunAmount;
+
 
     @TableField(exist = false)
     private List<MemberImage> imageList;
