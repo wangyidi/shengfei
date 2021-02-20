@@ -136,6 +136,14 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         if (StringUtils.isNotEmpty(memberSearchDTO.getIdCard())) {
             queryWrapper.like("id_card",memberSearchDTO.getIdCard());
         }
+        if (StringUtils.isNotBlank(memberSearchDTO.getBranchCompany())) {
+            List<User>userList = userMapper.selectList(new QueryWrapper<User>().eq("branch_company",memberSearchDTO.getBranchCompany()));
+            if (ValidatorUtils.empty(userList)) {
+                return new PageInfo<> ();
+            }
+            List<Integer>ids = userList.stream().map(User::getId).collect(Collectors.toList());
+            queryWrapper.in("sys_user_id",ids);
+        }
         return getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
     }
 
@@ -195,7 +203,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         if (StringUtils.isNotBlank(memberSearchDTO.getBranchCompany())) {
             List<User>userList = userMapper.selectList(new QueryWrapper<User>().eq("branch_company",memberSearchDTO.getBranchCompany()));
             if (ValidatorUtils.empty(userList)) {
-                return null;
+                return new PageInfo<> ();
             }
             List<Integer>ids = userList.stream().map(User::getId).collect(Collectors.toList());
             queryWrapper.in("sys_user_id",ids);
@@ -239,7 +247,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         if (StringUtils.isNotBlank(memberSearchDTO.getBranchCompany())) {
             List<User>userList = userMapper.selectList(new QueryWrapper<User>().eq("branch_company",memberSearchDTO.getBranchCompany()));
             if (ValidatorUtils.empty(userList)) {
-                return null;
+                return new PageInfo<> ();
             }
             List<Integer>ids = userList.stream().map(User::getId).collect(Collectors.toList());
             queryWrapper.in("sys_user_id",ids);

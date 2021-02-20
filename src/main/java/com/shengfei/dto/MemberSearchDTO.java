@@ -17,4 +17,6 @@ public class MemberSearchDTO {
     private String name;
 
     private String idCard;
+
+    private String branchCompany;
 }
