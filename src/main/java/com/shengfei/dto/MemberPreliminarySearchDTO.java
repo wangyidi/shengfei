@@ -1,5 +1,6 @@
 package com.shengfei.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 
@@ -16,4 +17,6 @@ public class MemberPreliminarySearchDTO {
 
     private String name;
 
+    @ApiModelProperty(value = "分支机构")
+    private String branchCompany;
 }

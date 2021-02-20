@@ -168,6 +168,14 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         if (StringUtils.isNotEmpty(memberSearchDTO.getName())) {
             queryWrapper.like("name",memberSearchDTO.getName());
         }
+        if (StringUtils.isNotBlank(memberSearchDTO.getBranchCompany())) {
+            List<User>userList = userMapper.selectList(new QueryWrapper<User>().eq("branch_company",memberSearchDTO.getBranchCompany()));
+            if (ValidatorUtils.empty(userList)) {
+                return new PageInfo<> ();
+            }
+            List<Integer>ids = userList.stream().map(User::getId).collect(Collectors.toList());
+            queryWrapper.in("sys_user_id",ids);
+        }
         PageInfo<Member> list = getMemberPageInfo(queryWrapper,memberSearchDTO.getPageNum(),memberSearchDTO.getPageSize());
         List<Member> memberList = list.getList();
         // phone 脱敏
