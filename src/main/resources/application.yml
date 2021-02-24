@@ -80,3 +80,8 @@ redis:
   password: 2021!!
   port: 6379
   timeout: 30000
+
+house:
+  url: http://dev.worldunion.cn:30997/QueryPrice
+  name: SFKJTestUser
+  pwd: SFKJTestPwd

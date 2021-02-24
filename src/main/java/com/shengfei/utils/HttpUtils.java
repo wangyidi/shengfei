@@ -3,6 +3,8 @@ package com.shengfei.utils;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -76,5 +78,27 @@ public class HttpUtils {
         os.close();
         is.close();
     }
+
+//    public static void main(String[] args) {
+//        RestTemplate restTemplate = new RestTemplate();
+//        String url = "http://dev.worldunion.cn:30997/QueryPrice/PrintInfo/alitest001";
+//        try {
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.add("Authorization","Basic ew0KICAiVXNlckNvZGUiOiAiU0ZLSlRlc3RVc2VyIiwNCiAgIlVzZXJQYXNzV29yZCI6ICJTRktKVGVzdFB3ZCIsDQogICJJcEFkZHJlc3MiOiAiMjEwLjgzLjIxNi4zNiIsDQogICJFeHBpcnlEYXRlIjogIjIwMjEtMDQtMjNUMDA6MDA6MDAiDQp9");
+//            headers.setContentType(MediaType.APPLICATION_JSON);
+//            ResponseEntity<byte[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<String>(headers), byte[].class);
+//            byte[] body = responseEntity.getBody();
+//            //创建输出流  输出到本地
+//            FileOutputStream fileOutputStream = new FileOutputStream(new File("/Users/wangyd/Desktop/1.xlsx"));
+//            fileOutputStream.write(body);
+//            //关闭流
+//            fileOutputStream.close();
+//        }
+//        catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+
 
 }
