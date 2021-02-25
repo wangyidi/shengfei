@@ -38,14 +38,19 @@ public class HouseRestTemplate {
         headers.add("Authorization","Basic "+token);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> httpEntity = null;
-//        if(map != null){
-//            httpEntity = new HttpEntity<>(JSON.toJSONString(map),headers);
-//        }else {
+        ResponseEntity<String> responseEntity = null;
+        if(map != null){
+            httpEntity = new HttpEntity<>(JSON.toJSONString(map),headers);
+            log.info("[请求地址] {} \n [请求参数]{} \n",url,JSON.toJSONString(httpEntity));
+            responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class,map);
+            log.info("[请求地址] {} \n [请求参数]{} \n [响应码] {} \n [响应数据] {}",url,JSON.toJSONString(httpEntity),responseEntity.getStatusCode(),responseEntity.getBody());
+        }else {
             httpEntity = new HttpEntity<>(headers);
-//        }
-        log.info("[请求地址] {} \n [请求参数]{} \n",url,JSON.toJSONString(httpEntity));
-        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class,map);
-        log.info("[请求地址] {} \n [请求参数]{} \n [响应码] {} \n [响应数据] {}",url,JSON.toJSONString(httpEntity),responseEntity.getStatusCode(),responseEntity.getBody());
+            log.info("[请求地址] {} \n [请求参数]{} \n",url,JSON.toJSONString(httpEntity));
+            responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class);
+            log.info("[请求地址] {} \n [请求参数]{} \n [响应码] {} \n [响应数据] {}",url,JSON.toJSONString(httpEntity),responseEntity.getStatusCode(),responseEntity.getBody());
+        }
+
         return JSON.parse(responseEntity.getBody());
     }
 
