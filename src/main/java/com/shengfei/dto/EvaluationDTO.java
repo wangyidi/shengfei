@@ -33,20 +33,15 @@ public class EvaluationDTO implements Serializable {
 
     private String CaseId;
 
-    @Size(max = 4)
     private String NearRoad;
 
-    @Size(max = 4)
     private String LandSpace;
-    @Size(max = 4,message = "PropertyType max 12")
+
     private String PropertyType;
 
-    @Size(max = 12,message = "PropertyType max 12")
     private String HouseType;
 
-    @Size(max = 4,message = "Forward max 12")
     private String Forward;
 
-    @Size(max = 64,message = "Remark max 12")
     private String Remark;
 }

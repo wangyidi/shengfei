@@ -85,3 +85,11 @@ house:
   url: http://dev.worldunion.cn:30997/QueryPrice
   name: SFKJTestUser
   pwd: SFKJTestPwd
+
+court:
+  strategy:
+    id: STR0037101
+  token:
+    url: https://apiservice.100credit.com/api/auth-service/auth/getToken
+    name: sfeiStr
+    pwd:  sfeiStr123

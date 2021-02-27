@@ -1,0 +1,93 @@
+client-config:
+    keytoolPwd: changeit
+    keyStorePath: D:\\aaa\\tomcat.keystore
+    trustStorePath: D:\\aaa\\tomcat.keystore
+    #风险切换策略,根据不同的配置使用不同的切换策略,目前是有3种     	0.非故障转移模式   1 故障转移
+    riskStrategy: 1
+    # 故障转移时需要指定一个 apiCode
+    apiCode: 3006980
+    # 故障转移时需要指定一个 appKey
+    appKey: 8334ab2cdeee027447a7d2dd326362291ee3cda4c8b1c5483b0a0cfa609eebbf
+    #域名或者服务地址
+    defaultDomain: api2.100credit.cn,api5.100credit.cn
+    lineDirectlyDomain: https://api2.100credit.cn
+    #自定义headers,如果放开注释会加到请求中
+#    headers:
+#        - Host: api2.100credit.cn
+    #是否忽略证书
+    isIgnoreCertificate: true
+    #域名服务调用的频率，单位分钟
+    updateThreshold: 120
+    #故障转移模式下，异常重试次数
+    retryTimes: 2
+    #加密方式  1 md5  2 sha256
+    encryType: 1
+    #默认配置
+    errCountThreshold1: 5
+    errCountThreshold2: 7
+    errCountThreshold3: 10
+    errTimeThreshold1: 5
+    errTimeThreshold2: 10
+    errTimeThreshold3: 30
+    #连接、读取超时配置(单位秒),如未填写默认为3+5
+    connectimeOut: 3
+    readtimeOut: 5
+    pooltimeOut: 10
+    #最大连接数
+    maxTotal: 800
+    #每个路由最大连接数
+    maxPerRoute: 200
+    #tls版本号,默认不指定
+    tlsVersion:
+    #是否使用代理
+    isProxy: false
+    #代理ip及端口
+    proxyHost:
+    proxyPort:
+    #1:键值对  2:json
+    contentType: 2
+remote-urls:
+    #获取域名列表的服务地址
+    - getDomainListPath: /domain/v3/query
+    #画像
+    - BankServer4Api: /huaxiang/v3/get_report
+    #海纳
+    - HainaApi: /haina_api/v3/get_data
+    #整合
+    - TrinityForceAPI: /trinity_force/v3/get_data
+    #策略贷前
+    - strategyApi: /strategy_api/v3/hx_query
+    #策略验证
+    - verificationApi: /infoverify/v3/info_verify
+    #贷中策略单笔查询API
+    - LmstrategyAPI: /loan_strategy/v3/query
+    #贷中批量推送API
+    - LmbatchPutAPI: /loan_strategy/v3/batch_put
+    #贷中批量查询API
+    - LmbatchQueryAPI: /loan_strategy/v3/batch_query
+    #贷中监控推送任务
+    - BatchdeliveryApi: /loan_monitor/v3/put
+    #贷中监控结果查询
+    - ResultsquueryApi: /loan_monitor/v3/query
+    #贷中修改监控任务
+    - UpdatetaskApi: /loan_monitor/v3/update
+    #贷中删除监控任务
+    - DeletetaskApi: /loan_monitor/v3/delete
+    #单笔推送号码状态核查接口
+    - PscPutAPI: /phone/v3/put
+    #单笔查询号码状态核查接口
+    - PscQueryAPI: /phone/v3/query
+    #批量推送号码状态核查接口
+    - PscBPAPI: /phone/v3/batch_put
+    #批量查询号码状态核查接口
+    - PscBQueryAPI: /phone/v3/batch_query
+    #企业同步接口
+    - bizSynchronyApi: /biz/v3/get_data
+    #企业异步获取任务id接口
+    - BizapiTask: /biz/v3/query_data
+    #企业异步轮询获取结果接口
+    - BizResult: /biz/v3/get_result
+    #PDF
+    - ParseDataApi: /credit_report/v3/pboc
+    #Pdf下载接口
+    - Pdfdownload: /query_api/v3/download_approval_report

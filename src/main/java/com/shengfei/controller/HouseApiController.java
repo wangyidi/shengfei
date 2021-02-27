@@ -38,8 +38,8 @@ public class HouseApiController {
         try {
             return houseRestTemplate.getRequest(HouseUrlConstant.HOUSE_PROVINCES,null);
         }catch (Exception e){
-            log.error("菜单列表查询错误：{}",e.getMessage(),e);
-            return ResultVO.systemError("查询错误"+e.getMessage());
+            log.error("获取省列表错误：{}",e.getMessage(),e);
+            return ResultVO.systemError("获取省列表错误"+e.getMessage());
         }
     }
 
