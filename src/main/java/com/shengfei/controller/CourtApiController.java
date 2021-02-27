@@ -2,7 +2,7 @@ package com.shengfei.controller;
 
 
 import com.alibaba.fastjson.JSON;
-import com.br.client.facade.MerchantServer;
+import com.shengfei.client.facade.MerchantServer;
 import com.shengfei.config.HttpsClientRequestFactory;
 import com.shengfei.dto.CourtDTO;
 import com.shengfei.shiro.vo.ResultVO;
