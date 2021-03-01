@@ -22,6 +22,8 @@ import java.util.Map;
 @Component
 public class HouseRestTemplate {
 
+    @Resource
+    private RestTemplate restTemplate;
 
     @Value("${house.name}")
     private String houseName;
@@ -33,7 +35,7 @@ public class HouseRestTemplate {
 
     public Object getRequest(String url, Map map) throws Exception {
         String token = getToken().getToken();
-        RestTemplate restTemplate = new RestTemplate();
+//        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization","Basic "+token);
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -56,7 +58,7 @@ public class HouseRestTemplate {
 
     public Object getFileRequest(String url, Map map) throws Exception {
         String token = getToken().getToken();
-        RestTemplate restTemplate = new RestTemplate();
+//        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization","Basic "+token);
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -74,7 +76,7 @@ public class HouseRestTemplate {
 
     public Object postRequest(String url, EvaluationDTO evaluationDTO) throws Exception {
         String token = getToken().getToken();
-        RestTemplate restTemplate = new RestTemplate();
+//        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization","Basic "+token);
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -98,7 +100,7 @@ public class HouseRestTemplate {
             obj.put("Password", housePwd);
 
             HttpEntity<String> request = new HttpEntity<>(JSON.toJSONString(obj),headers);
-            RestTemplate restTemplate = new RestTemplate();
+//            RestTemplate restTemplate = new RestTemplate();
             log.info("[请求地址] {} \n [请求参数]{} \n",url,JSON.toJSONString(obj));
             ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST,request, String.class);
             log.info("[请求地址] {} \n [请求参数]{} \n [响应码] {} \n [响应数据] {}",url,JSON.toJSONString(obj),responseEntity.getStatusCode(),responseEntity.getBody());

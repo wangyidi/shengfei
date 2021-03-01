@@ -64,7 +64,9 @@ public class CourtApiController {
             reqData.put("cell",courtDTO.getPhone());
             reqData.put("name",courtDTO.getName());
             jso.put("reqData", reqData);
+            log.info("百融：{}",reqData);
             String result = ms.getApiData(jso.toString());
+            log.info("百融：{}, 相应数据：{}",reqData,result);
             return ResultVO.success(JSON.parse(result));
         }catch (Exception e){
             log.error("查询法院数据报错：{}",e.getMessage(),e);

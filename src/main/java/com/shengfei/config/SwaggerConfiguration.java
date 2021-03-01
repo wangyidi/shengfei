@@ -2,6 +2,7 @@ package com.shengfei.config;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -19,9 +20,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 @EnableKnife4j
 public class SwaggerConfiguration {
 
+    @Value("${swagger.enable}")
+    private Boolean enable;
+
     @Bean(value = "shegnfei-admin")
     public Docket createRestApi() {
         return  new Docket(DocumentationType.SWAGGER_2)
+                .enable(enable)
                 .apiInfo(apiInfo())
                 .groupName("1.0.0版本")
                 .select()

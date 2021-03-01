@@ -2,6 +2,7 @@ package com.shengfei.controller;
 
 
 import cn.hutool.core.date.DateTime;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shengfei.constant.HouseUrlConstant;
 import com.shengfei.dto.EvaluationDTO;
@@ -32,11 +33,18 @@ public class HouseApiController {
     @Resource
     private HouseRestTemplate houseRestTemplate;
 
+    private Object provinces;
+
     @ApiOperation(value = "获取省列表")
     @GetMapping("/provinces")
     public Object provinces() {
         try {
-            return houseRestTemplate.getRequest(HouseUrlConstant.HOUSE_PROVINCES,null);
+            if(provinces != null){
+                return provinces;
+            }else {
+                provinces = houseRestTemplate.getRequest(HouseUrlConstant.HOUSE_PROVINCES,null);
+            }
+            return provinces;
         }catch (Exception e){
             log.error("获取省列表错误：{}",e.getMessage(),e);
             return ResultVO.systemError("获取省列表错误"+e.getMessage());
