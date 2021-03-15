@@ -274,12 +274,31 @@ public class Member implements Serializable {
     @TableField(value="annual_run_amount")
     private BigDecimal annualRunAmount;
 
+    @ApiModelProperty(value ="评估结果(0通过/1复议)")
+    @TableField(value="housing_assessment")
+    private Integer housingAssessment;
+
+    @ApiModelProperty(value ="房屋评估价")
+    @TableField(value="housing_assessment_amount")
+    private BigDecimal housingAssessmentAmount;
+
+    @ApiModelProperty(value ="剩余贷款")
+    @TableField(value="residual_loan")
+    private BigDecimal residualLoan;
+
+    @ApiModelProperty(value ="初审额度")
+    @TableField(value="preliminary_amount")
+    private BigDecimal preliminaryAmount;
+
+
 
     @TableField(exist = false)
     private List<MemberImage> imageList;
 
     @TableField(exist = false)
     private UserVO sysUserBean;
+
+
 
 
     public String getSequence() {
