@@ -21,7 +21,7 @@ public interface MemberMapper extends BaseMapper<Member> {
             ",position,onboard_time,house_source,house_type,emergency_contact,emergency_contact_phone,emergency_contact_relation" +
             ",education,sys_user_id,status,lending_institutions,sequence,apply_amount,property_land,house_years,loan_product,loan_time,repayment_method,assure_means" +
             ",social_security_deposit_place,social_security_fund_amount,business_area,turnover,annual_run_amount" +
-            ",housing_assessment,housing_assessment_amount,residual_loan,preliminary_amount) " +
+            ",housing_assessment,housing_assessment_amount,residual_loan,preliminary_amount,housing_section_start,housing_section_end) " +
             "values(#{createDate}, #{name}, #{sex}, #{age}, #{idCard}, #{birthday}" +
             ", #{addressDetail},#{marriage}, #{phone}, #{healthy}, #{currentProvince}, #{currentCity}, #{currentArea} " +
             ", #{currentDetail} ,#{familyNum}, #{liveStatus}, #{familySalary}, #{companyName} " +
@@ -30,7 +30,7 @@ public interface MemberMapper extends BaseMapper<Member> {
             ", #{position}, #{onboardTime}, #{houseSource}, #{houseType}, #{emergencyContact},#{emergencyContactPhone}, #{emergencyContactRelation}" +
             ", #{education},#{sysUserId},#{status},#{lendingInstitutions},NEXTVAL('member'),#{applyAmount},#{propertyLand},#{houseYears},#{loanProduct},#{loanTime},#{repaymentMethod},#{assureMeans}" +
             ", #{socialSecurityDepositPlace},#{socialSecurityFundAmount},#{businessArea},#{turnover},#{annualRunAmount}" +
-            ",#{housingAssessment},#{housingAssessmentAmount},#{residualLoan},#{preliminaryAmount})" })
+            ",#{housingAssessment},#{housingAssessmentAmount},#{residualLoan},#{preliminaryAmount},#{housingSectionStart},{housingSectionEnd})" })
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int createMember(Member member);
 

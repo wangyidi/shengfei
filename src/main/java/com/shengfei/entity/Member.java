@@ -289,8 +289,14 @@ public class Member implements Serializable {
     @ApiModelProperty(value ="初审额度")
     @TableField(value="preliminary_amount")
     private BigDecimal preliminaryAmount;
+    
+    @ApiModelProperty(value ="房屋评估区间开始")
+    @TableField(value="housing_section_start")
+    private BigDecimal housingSectionStart;
 
-
+    @ApiModelProperty(value ="房屋评估区间结束")
+    @TableField(value="housing_section_end")
+    private BigDecimal housingSectionEnd;
 
     @TableField(exist = false)
     private List<MemberImage> imageList;
