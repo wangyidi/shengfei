@@ -30,7 +30,7 @@ public interface MemberMapper extends BaseMapper<Member> {
             ", #{position}, #{onboardTime}, #{houseSource}, #{houseType}, #{emergencyContact},#{emergencyContactPhone}, #{emergencyContactRelation}" +
             ", #{education},#{sysUserId},#{status},#{lendingInstitutions},NEXTVAL('member'),#{applyAmount},#{propertyLand},#{houseYears},#{loanProduct},#{loanTime},#{repaymentMethod},#{assureMeans}" +
             ", #{socialSecurityDepositPlace},#{socialSecurityFundAmount},#{businessArea},#{turnover},#{annualRunAmount}" +
-            ",#{housingAssessment},#{housingAssessmentAmount},#{residualLoan},#{preliminaryAmount},#{housingSectionStart},{housingSectionEnd})" })
+            ",#{housingAssessment},#{housingAssessmentAmount},#{residualLoan},#{preliminaryAmount},#{housingSectionStart},#{housingSectionEnd})" })
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int createMember(Member member);
 
